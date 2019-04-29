@@ -1,0 +1,36 @@
+<div id="m_ver_menu">
+    <a [routerLink]="[sidemenu[0].url]" class="m-menu__link" *ngIf="!sidemenu[0].list.length && status">
+        <i class="m-menu__link-icon"></i>
+        <span class="m-menu__link-text">
+            <span class="title">{{sidemenu[0].name}}</span>
+        </span>
+    </a>
+  <div *ngFor="let item of sidemenu">
+      
+    <ul>
+      <li *ngFor="let sub of item.list" >
+          
+        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+            <i class="m-menu__link-icon"></i>
+            <span class="m-menu__link-text">
+                <span class="title"> {{sub.subname}}</span>
+            </span>
+        </a>
+
+        
+        <div class="m-menu__submenu">
+          <ol class="m-menu__subnav">
+            <li *ngFor="let last of sub.list">
+                <a [routerLink]="[last.url]"class="m-menu__link">
+                    <i class="m-menu__link-icon"></i>
+                    <span class="m-menu__link-text">
+                        <span class="title">{{last.lastname}}</span>
+                    </span>
+                </a>
+            </li>
+          </ol>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

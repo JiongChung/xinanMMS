@@ -1,0 +1,22 @@
+<div class="m-container m-container--responsive m-container--full-height m-page__container">
+    <div class="m-stack m-stack--ver m-stack--desktop">
+        <div class="m-stack__item m-stack__item--middle m-stack__item--fluid">
+            <button class="m-aside-header-menu-mobile-close" id="m_aside_header_menu_mobile_close_btn">
+                <i class="la la-close"></i>
+            </button>
+            <div class="m-header-menu m-aside-header-menu-mobile" id="m_header_menu">
+                <ul class="m-menu__nav m-menu__nav--submenu-arrow">
+                   <li class="m-menu__item" *ngFor="let item of FirstMenu">
+                      <a class="m-menu__link m-menu__toggle" routerLink="{{item.url}}" routerLinkActive="active">
+                          <i class="m-menu__link-icon iconfont ">{{item.value}}</i>
+                          <span class="m-menu__link-text">
+                              <span class="title">{{item.name}}</span>
+                          </span>
+                      </a>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
