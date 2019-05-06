@@ -11,7 +11,51 @@
     <form class="m-form m-form--fit m-form--label-align-right">
         <div class="m-portlet__body">
             <div class="form-group m-form__group">
-                <p-editor [(ngModel)]="htmlEditorInput" name="HtmlEditorInput" [style]="{'height':'300px'}"></p-editor>
+                <!-- p-editor  图片上传阿里云未实现-->
+                <!-- <p-editor [(ngModel)]="htmlEditorInput" name="HtmlEditorInput" [style]="{'height':'300px'}"></p-editor> -->
+                <!-- quill-editor 实现图片上传阿里云 -->
+                <quill-editor [style]="{height: '300px'}" name="htmlEditorInput" (onEditorCreated)="editorCreated($event)" [(ngModel)]="htmlEditorInput">
+                    <div quill-editor-toolbar>
+                        <span class="ql-formats">
+                            <button type="button" class="ql-bold"></button>
+                            <button type="button" class="ql-italic"></button>
+                            <button type="button" class="ql-underline"></button>
+                            <button type="button" class="ql-blockquote"></button>
+                            <button type="button" class="ql-code-block ql-active"></button>
+                            <button type="button" class="ql-list" value="ordered"></button>
+                            <button type="button" class="ql-list" value="bullet"></button>
+                            <button type="button" class="ql-script" value="sub"></button>
+                            <button type="button" class="ql-script" value="super"></button>
+                            <button type="button" class="ql-indent" value="-1"></button>
+                            <button type="button" class="ql-indent" value="+1"></button>
+                            <select class="ql-header">
+                                <option value="1">Heading1</option>
+                                <option value="2">Heading2</option>
+                                <option value="3">Heading3</option>
+                                <option value="4">Heading4</option>
+                                <option value="5">Heading5</option>
+                                <option value="6">Heading6</option>
+                                <option selected>Normal</option>
+                            </select>
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                            <select class="ql-align">
+                                <option selected></option>
+                                <option value="center"></option>
+                                <option value="right"></option>
+                                <option value="justify"></option>
+                            </select>
+                            <button type="button" class="ql-link"></button>
+                            <button type="button" style="outline:none">
+                                <label style="width: 20px;height: 20px;">
+                                    <svg class="camera" viewBox="0 0 18 18"> <rect class="ql-stroke" height="10" width="12" x="3" y="4"></rect> <circle class="ql-fill" cx="6" cy="7" r="1"></circle> <polyline class="ql-even ql-fill" points="5 12 5 11 7 9 8 10 11 7 13 9 13 12 5 12"></polyline> </svg>
+                                    <input type="file" accept="image/jpeg;image/jpg;image/png;" style="display: none;" ng2FileSelect [uploader]="imageUploader" />
+                                </label>
+                            </button>
+                            <button type="button" class="ql-video"></button>
+                        </span>
+                    </div>
+                </quill-editor>
             </div>
         </div>
         <div class="m-portlet__foot m-portlet__foot--fit">

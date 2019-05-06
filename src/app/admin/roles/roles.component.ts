@@ -19,6 +19,7 @@ export class RolesComponent extends AppComponentBase {
 
     //Filters
     selectedPermission = '';
+    isExcelNow: boolean = false;
 
     constructor(
         injector: Injector,
@@ -57,5 +58,9 @@ export class RolesComponent extends AppComponentBase {
                 }
             }
         );
+    }
+
+    exportToExcel(): void{
+        this.isExcelNow = true;
     }
 }

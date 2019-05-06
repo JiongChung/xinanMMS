@@ -1,5 +1,5 @@
-<a href="javascript:;" class="m-nav__link m-dropdown__toggle" *ngIf="unreadNotificationCount" id="m_topbar_notification_icon">
-    <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small" [ngClass]="{'m-badge--danger':unreadNotificationCount}"></span>
+<a href="javascript:;" class="m-nav__link m-dropdown__toggle" style="padding-top: 9px;" *ngIf="unreadNotificationCount" id="m_topbar_notification_icon">
+    <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small"[ngClass]="{'m-badge--danger':unreadNotificationCount}"></span>
     <span class="m-nav__link-icon">
         <i class="flaticon-music-2"></i>
     </span>
@@ -10,8 +10,8 @@
         <i class="flaticon-music-2"></i>
     </span>
 </a>
-<div class="m-dropdown__wrapper">
-    <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+<div class="m-dropdown__wrapper" style="margin-left: -250px">
+    <span class="m-dropdown__arrow m-dropdown__arrow--center" style="margin-left:42px"></span>
     <div class="m-dropdown__inner">
         <div class="m-dropdown__header m--align-center" [ngStyle]="{ 'background': 'url(' + appRootUrl() + 'assets/metronic/dist/html/default/assets/demo/default/media/img/misc/notification_bg.jpg)', 'background-size': 'cover'}">
             <span class="m-dropdown__header-title">

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/cor
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { AccountServiceProxy } from '@shared/service-proxies/service-proxies';
-import { IsTenantAvailableInput } from '@shared/service-proxies/service-proxies';
+// import { IsTenantAvailableInput } from '@shared/service-proxies/service-proxies';
 import { AppTenantAvailabilityState } from '@shared/AppEnums';
 
 @Component({
@@ -44,27 +44,27 @@ export class TenantChangeModalComponent extends AppComponentBase {
             return;
         }
 
-        let input = new IsTenantAvailableInput();
-        input.tenancyName = this.tenancyName;
+        // let input = new IsTenantAvailableInput();
+        // input.tenancyName = this.tenancyName;
 
-        this.saving = true;
-        this._accountService.isTenantAvailable(input)
-            .finally(() => { this.saving = false; })
-            .subscribe((result) => {
-                switch (result.state) {
-                    case AppTenantAvailabilityState.Available:
-                        abp.multiTenancy.setTenantIdCookie(result.tenantId);
-                        this.close();
-                        location.reload();
-                        return;
-                    case AppTenantAvailabilityState.InActive:
-                        this.message.warn(this.l('TenantIsNotActive', this.tenancyName));
-                        break;
-                    case AppTenantAvailabilityState.NotFound: //NotFound
-                        this.message.warn(this.l('ThereIsNoTenantDefinedWithName{0}', this.tenancyName));
-                        break;
-                }
-            });
+        // this.saving = true;
+        // this._accountService.isTenantAvailable(input)
+        //     .finally(() => { this.saving = false; })
+        //     .subscribe((result) => {
+        //         switch (result.state) {
+        //             case AppTenantAvailabilityState.Available:
+        //                 abp.multiTenancy.setTenantIdCookie(result.tenantId);
+        //                 this.close();
+        //                 location.reload();
+        //                 return;
+        //             case AppTenantAvailabilityState.InActive:
+        //                 this.message.warn(this.l('TenantIsNotActive', this.tenancyName));
+        //                 break;
+        //             case AppTenantAvailabilityState.NotFound: //NotFound
+        //                 this.message.warn(this.l('ThereIsNoTenantDefinedWithName{0}', this.tenancyName));
+        //                 break;
+        //         }
+        //     });
     }
 
     close(): void {

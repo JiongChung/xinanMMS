@@ -39,6 +39,7 @@ export class CreateOrEditUserModalComponent extends AppComponentBase implements 
 
     allOrganizationUnits: OrganizationUnitDto[];
     memberedOrganizationUnits: string[];
+    isHide: boolean = false;
 
     constructor(
         injector: Injector,

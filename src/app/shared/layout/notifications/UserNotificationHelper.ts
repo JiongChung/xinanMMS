@@ -95,7 +95,7 @@ export class UserNotificationHelper extends AppComponentBase {
         });
 
         //Desktop notification
-        Push.create('Xdb', {
+        Push.create('Xa', {
             body: this.format(userNotification).text,
             icon: abp.appPath + 'assets/common/images/app-logo-small.png',
             timeout: 6000,

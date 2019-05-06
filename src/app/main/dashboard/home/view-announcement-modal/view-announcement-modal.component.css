@@ -1,0 +1,7 @@
+.announcementlist li{
+    padding: 5px 0;
+}
+.announcementlist{
+    max-height: 650px;
+    overflow: auto
+}

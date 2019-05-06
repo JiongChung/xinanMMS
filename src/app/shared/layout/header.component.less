@@ -26,18 +26,18 @@
 }
 
 .new-top-nav-full{
-    background: #4d8dff;
-    height: 80px;
-    line-height: 80px;
+    background: #b6a747;
+    // height: 80px;
+    // line-height: 80px;
     box-shadow: 0 10px 10px rgba(0,0,0,0.1);
     position: relative;
 
-    #m_header_nav{
-        height: 80px !important;
-    }
-    .m-container.m-container--full-height{
-        height: 80px;
-    }
+    // #m_header_nav{
+    //     height: 80px !important;
+    // }
+    // .m-container.m-container--full-height{
+    //     height: 80px;
+    // }
 
     .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-text{
         font-size: 16px;
@@ -49,9 +49,14 @@
     }
 
     .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link{
-        padding:35px 40px 0;
+        padding:0 40px 0;
         white-space: nowrap;
-        text-align: center
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+    }
+    .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link:hover{
+        background: rgba(255,255,255,0.1)
     }
     .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-icon{
         position: absolute;
@@ -69,8 +74,8 @@
 
     .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link.active{
         background: #ffffff;
-        color: #4d8dff;
-        border-radius: 5px;
+        color: #b6a747;
+        // border-radius: 5px;
     }
 }
 
@@ -108,20 +113,20 @@ app-home[class=ng-star-inserted]{
     }
 
     .m-menu__toggle{
-        background: #4d8dff;
+        background: #c5b96b;
         color: #fff
     }
 
     .m-menu__link.active{
-        color: #4d8dff;
+        color: #aea044;
 
         .m-menu__link-text:before{
             position: absolute;
             top: 0;
             left: -15px;
             width: 6px;
-            height: 20px;
-            background: #4d8dff;
+            height: 15px;
+            background: #c5b96b;
             display: block;
             content: "";
             border-radius: 8px;
@@ -132,4 +137,23 @@ app-home[class=ng-star-inserted]{
 .m-body .m-wrapper{
     margin: 20px;
     width: 100%;
+}
+.m--font-primary{
+    color: white !important
+}
+
+
+
+.m-page--fluid .m-header{
+    background: none;
+    float: right;
+    position: relative;
+    left: auto;
+    height: 50px;
+}
+.m-container.m-container--fluid{
+    width: auto;
+}
+.m-stack{
+    width: auto;
 }

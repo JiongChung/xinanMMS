@@ -114,9 +114,10 @@
                                     </div>
                                 </ng-template>
                             </p-column>
-                            <p-column field="userName" header="{{l('UserName')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column>
-                            <p-column field="name" header="{{l('Name')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column>
-                            <p-column field="surname" header="{{l('Surname')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column>
+                            <!-- <p-column field="userName" header="{{l('UserName')}}" [sortable]="true" [style]="{'width':'150px'}"></p-column> -->
+                            <p-column field="inviteCode" header="ID" [sortable]="true" [style]="{'width':'80px'}"></p-column>
+                            <p-column field="phoneNumber" header="手机号码" [sortable]="true" [style]="{'width':'120px'}"></p-column>
+                            <p-column field="nickName" header="昵称" [sortable]="true" [style]="{'width':'150px'}"></p-column>
                             <p-column field="roles" header="{{l('Roles')}}" [sortable]="false" [style]="{'width':'150px'}">
                                 <ng-template let-record="rowData" pTemplate="body">
                                     {{getRolesAsString(record.roles)}}

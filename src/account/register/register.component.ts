@@ -46,10 +46,10 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     }
 
     save(): void {
-        if (this.useCaptcha && !this.model.captchaResponse) {
-            this.message.warn(this.l('CaptchaCanNotBeEmpty'));
-            return;
-        }
+        // if (this.useCaptcha && !this.model.captchaResponse) {
+        //     this.message.warn(this.l('CaptchaCanNotBeEmpty'));
+        //     return;
+        // }
 
         this.saving = true;
         this._accountService.register(this.model)
@@ -63,13 +63,13 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
 
                 //Autheticate
                 this.saving = true;
-                this._loginService.authenticateModel.userNameOrEmailAddress = this.model.userName;
+                // this._loginService.authenticateModel.userNameOrEmailAddress = this.model.userName;
                 this._loginService.authenticateModel.password = this.model.password;
                 this._loginService.authenticate(() => { this.saving = false; });
             });
     }
 
     captchaResolved(captchaResponse: string): void {
-        this.model.captchaResponse = captchaResponse;
+        // this.model.captchaResponse = captchaResponse;
     }
 }

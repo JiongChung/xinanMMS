@@ -26,7 +26,9 @@ export class SideBarMenuComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
+        
         this.menu = this._appNavigationService.getMenu();
+        console.log(this.menu)
     }
 
     showMenuItem(menuItem): boolean {

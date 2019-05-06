@@ -61,6 +61,7 @@ import { DemoUiInputMaskComponent } from './demo-ui-components/demo-ui-input-mas
 import { DemoUiEditorComponent } from './demo-ui-components/demo-ui-editor.component';
 import { InputMaskModule } from 'primeng/primeng';
 import { UiCustomizationComponent } from './ui-customization/ui-customization.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
     imports: [
@@ -79,7 +80,8 @@ import { UiCustomizationComponent } from './ui-customization/ui-customization.co
         PrimeNgFileUploadModule,
         AutoCompleteModule,
         EditorModule,
-        InputMaskModule
+        InputMaskModule,
+        QuillModule
     ],
     declarations: [
         UsersComponent,

@@ -1,4 +1,4 @@
-import { Component, Injector, ViewChild, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, ViewChild, ChangeDetectorRef, ViewEncapsulation,OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { NotificationServiceProxy, UserNotification } from '@shared/service-proxies/service-proxies';
 import { UserNotificationHelper, IFormattedUserNotification } from './UserNotificationHelper';
@@ -7,6 +7,7 @@ import { AppUserNotificationState } from '@shared/AppEnums';
 import { DataTable } from 'primeng/components/datatable/datatable';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
+import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 
 import * as moment from 'moment';
 
@@ -16,7 +17,7 @@ import * as moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class NotificationsComponent extends AppComponentBase {
+export class NotificationsComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable') dataTable: DataTable;
     @ViewChild('paginator') paginator: Paginator;
@@ -24,13 +25,33 @@ export class NotificationsComponent extends AppComponentBase {
     readStateFilter = 'ALL';
     loading = false;
 
+    isAdmin: boolean = false;
+
     constructor(
         injector: Injector,
         private _notificationService: NotificationServiceProxy,
         private _userNotificationHelper: UserNotificationHelper,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        private _authService: AppAuthService
     ) {
         super(injector);
+    }
+    ngOnInit(){
+        this.getPermission();
+    }
+
+    logout(): void{
+        this._authService.logout();
+    }
+
+    getPermission(): void{
+        let formatGrantedPermissions = window.localStorage.getItem('formatGrantedPermissions');
+        this.isAdmin = (formatGrantedPermissions.indexOf('PagesCustomer') > -1) ? true : false;
+        if(!this.isAdmin){
+            setTimeout(() => {
+                $('#helloworld').css('width',$(window).width());
+            }, 100);
+        }
     }
 
     reloadPage(): void {
@@ -73,7 +94,7 @@ export class NotificationsComponent extends AppComponentBase {
         return abp.utils.truncateStringWithPostfix(text, length);
     }
 
-    getNotifications(event?: LazyLoadEvent): void {
+    getNotifications(event?: LazyLoadEvent) {
         if (this.primengDatatableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
 

@@ -43,10 +43,10 @@ export function appInitializerFactory(
                 // Initialize local Forage
                 localForage.config({
                     driver: localForage.LOCALSTORAGE,
-                    name: 'Xdb',
+                    name: 'Xa',
                     version: 1.0,
                     storeName: 'xdb_local_storage',
-                    description: 'Cached data for Xdb'
+                    description: 'Cached data for Xa'
                 });
 
                 let appSessionService: AppSessionService = injector.get(AppSessionService);

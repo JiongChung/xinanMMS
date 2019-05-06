@@ -9,9 +9,15 @@ export class CommonValidatorService {
 
     /**校验手机**/
     phone(control: FormControl): any {
-        let myReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+        let myReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
         let valid = myReg.test(control.value);
         return valid ? null : {phone : true};//如果valid是true 返回是null
+    }
+
+    stringPhone(value: any): any {
+        let myReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+        let valid = myReg.test(value);
+        return valid;
     }
 
     /**校验正数，不含小数，不含0，且必填**/
@@ -19,6 +25,12 @@ export class CommonValidatorService {
         let myReg = /^[0-9]*[1-9][0-9]*$/;
         let valid = myReg.test(control.value);
         return valid ? null : {int : true};
+    }
+
+    intNotRequired(control: FormControl): any {
+        let myReg = /^[0-9]*[1-9][0-9]*$/;
+        let valid = control.value ? myReg.test(control.value) : true;
+        return valid ? null : {intNotRequired : true};
     }
 
     /**校验浮点数**/
@@ -83,5 +95,12 @@ export class CommonValidatorService {
         let myReg = /\.(png|jpe?g|gif|svg)(\?.*)?$/;
         let valid = myReg.test(value);
         return valid ? true : false;
+    }
+
+    moreThanZero(control: FormControl): any {
+        let myReg = /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/;
+        // let valid = control.value ? ((control.value > 0) ? true : false) : false;
+        let valid = myReg.test(control.value);
+        return valid ? null : {moreThanZero : true};
     }
 }

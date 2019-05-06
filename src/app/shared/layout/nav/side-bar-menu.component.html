@@ -11,21 +11,21 @@
                 <a [routerLink]="[menuItem.route]" *ngIf="!menuItem.items.length && !menuItem.external" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon {{menuItem.icon}}"></i>
                     <span class="m-menu__link-text">
-                        <span class="title">{{l(menuItem.name)}}</span>
+                        <span class="title">{{l(menuItem.name)}}***</span>
                     </span>
                 </a>
 
                 <a [attr.href]="[menuItem.route]" *ngIf="!menuItem.items.length && menuItem.external" class="m-menu__link m-menu__toggle" target="_blank">
                     <i class="m-menu__link-icon {{menuItem.icon}}"></i>
                     <span class="m-menu__link-text">
-                        <span class="title">{{l(menuItem.name)}}</span>
+                        <span class="title">{{l(menuItem.name)}}----</span>
                     </span>
                 </a>
 
                 <a href="javascript:;" *ngIf="menuItem.items.length" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon {{menuItem.icon}}"></i>
                     <span class="m-menu__link-text">
-                        <span class="title">{{l(menuItem.name)}}</span>
+                        <span class="title">{{l(menuItem.name)}}---0</span>
                     </span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>

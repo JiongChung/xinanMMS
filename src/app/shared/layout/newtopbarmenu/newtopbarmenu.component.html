@@ -4,11 +4,12 @@
             <button class="m-aside-header-menu-mobile-close" id="m_aside_header_menu_mobile_close_btn">
                 <i class="la la-close"></i>
             </button>
+            <div class="logo-text">心安求助 2.0</div>
             <div class="m-header-menu m-aside-header-menu-mobile" id="m_header_menu">
                 <ul class="m-menu__nav m-menu__nav--submenu-arrow">
                    <li class="m-menu__item" *ngFor="let item of FirstMenu">
                       <a class="m-menu__link m-menu__toggle" routerLink="{{item.url}}" routerLinkActive="active">
-                          <i class="m-menu__link-icon iconfont ">{{item.value}}</i>
+                          <!-- <i class="m-menu__link-icon iconfont ">{{item.value}}</i> -->
                           <span class="m-menu__link-text">
                               <span class="title">{{item.name}}</span>
                           </span>

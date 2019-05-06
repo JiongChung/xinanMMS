@@ -1,40 +1,98 @@
-<div class="m-grid__item-wrapper">
-    <div  id="m_aside_left" class="m-grid__item m-aside-left">
-      <div id="m_ver_menu"> 
-          <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-              <li class="m-menu__item ">
-                <a routerLink="{{FirstMenu[0].url}}" class="m-menu__link ">
-                  <i class="m-menu__link-icon flaticon-line-graph"></i>
-                  <span class="m-menu__link-title">    
-                      <span class="m-menu__link-text">{{FirstMenu[0].name}}</span>  
-                  </span>
-                </a>
-              </li>
-         </ul>
-      </div>
-    </div>
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
-        <h1>
-            这是进入后台主显示页面
-          </h1>
-          <div>
-          
-            9大模块及其路径
-            <ul>
-              <li>油联 \src\app\modules\youlian</li>
-              <li>商品 \src\app\modules\product</li>
-              <li>订单 \src\app\modules\orders</li>
-              <li>客户 \src\app\modules\client</li>
-              <li>财务 \src\app\modules\finance</li>
-              <li>数据 \src\app\modules\data</li>
-              <li>分销 \src\app\modules\distribution</li>
-              <li>数字资产 \src\app\modules\digitalassets</li>
-              <li>设置 \src\app\modules\settings</li>
-              <li>服务 \src\app\service\下面的共公文件 </li>
-            </ul>
-          
-            *.component.spec.ts为测试文件，可以删除；
-            <h1>\src\styles.css 为全局样式路径</h1>
-          </div>
+
+<div [@routerTransition]>
+    <div class="m-grid__item m-grid__item--fluid m-wrapper" style="margin: 0">
+        <div class="m-subheader">
+            <div class="d-flex align-items-center">
+                <div class="mr-auto col-xs-6">
+                    <h3 class="m-subheader__title m-subheader__title--separator">
+                        <span>工作台</span>
+                    </h3>
+                    <span class="m-section__sub">
+                        分析与报告
+                    </span>
+                    <span class="m-section__sub web_tips" [ngStyle]="{'background-color':tipsBackgroundColor}">Tips：在遇到网站访问有问题时，可以按F5或ctrl+f5刷新</span>
+                </div>
+                <div class="col-xs-6 text-right" *ngIf="showDashboard">
+                    <button (click)="viewAnnouncement()" class="btn blue btn-outline">更新日志</button>
+                </div>
+            </div>
+        </div>
+        <div class="m-content" *ngIf="showDashboard">
+            <div class="m-portlet">
+                <div class="m-portlet__body  m-portlet__body--no-padding">
+                    <div class="row m-row--no-padding m-row--col-separator-xl">
+                        <div class="col-md-12 col-lg-4 col-xl-4">
+                            <div class="m-widget24">
+                                <div class="m-widget24__item">
+                                    <h4 class="m-widget24__title">
+                                        付款总额
+                                    </h4>
+                                    <br>
+                                    <span class="m-widget24__desc">
+                                        最近7日的付款金额
+                                    </span>
+                                    <span class="m-widget24__stats m--font-brand">
+                                        ￥ <span
+                                            counto [step]="30"
+                                            [duration]="1"
+                                            [countFrom]="0"
+                                            [countTo]="DashboardSummaryReport.totalAmount"
+                                            (countoChange)="DashboardSummaryReport.totalAmountCounter = $event">
+                                            {{DashboardSummaryReport.totalAmountCounter | number}}
+                                        </span>
+                                    </span>
+                                    <div class="m--space-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4 col-xl-4">
+                            <div class="m-widget24">
+                                <div class="m-widget24__item">
+                                    <h4 class="m-widget24__title">
+                                        新订单
+                                    </h4>
+                                    <br>
+                                    <span class="m-widget24__desc">
+                                        最近7日的订单数量
+                                    </span>
+                                    <span class="m-widget24__stats m--font-info"
+                                        counto [step]="30"
+                                        [duration]="1"
+                                        [countFrom]="0"
+                                        [countTo]="DashboardSummaryReport.totalOrder"
+                                        (countoChange)="DashboardSummaryReport.totalOrderCounter = $event">
+                                        {{DashboardSummaryReport.totalOrderCounter | number}}
+                                    </span>
+                                    <div class="m--space-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4 col-xl-4">
+                            <div class="m-widget24">
+                                <div class="m-widget24__item">
+                                    <h4 class="m-widget24__title">
+                                        新注册用户
+                                    </h4>
+                                    <br>
+                                    <span class="m-widget24__desc">
+                                        最近7日的注册用户
+                                    </span>
+                                    <span class="m-widget24__stats m--font-info"
+                                        counto [step]="30"
+                                        [duration]="1"
+                                        [countFrom]="0"
+                                        [countTo]="DashboardSummaryReport.totalNewUser"
+                                        (countoChange)="DashboardSummaryReport.totalNewUserCounter = $event">
+                                        {{DashboardSummaryReport.totalNewUserCounter | number}}
+                                    </span>
+                                    <div class="m--space-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<ViewAnnouncementModal #ViewAnnouncementModal></ViewAnnouncementModal>

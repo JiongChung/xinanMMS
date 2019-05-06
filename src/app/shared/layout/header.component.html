@@ -2,18 +2,26 @@
         data-minimize="false"
         [attr.data-minimize]="ui.getIsMenuMinimizable()"
         [attr.data-minimize-mobile]="ui.getIsMenuMinimizableMobile()"
-        data-minimize-offset="200" data-minimize-mobile-offset="200">
+        data-minimize-offset="200" data-minimize-mobile-offset="200"
+        *ngIf="isAdmin">
     <div class="m-header__top">
         <div class="m-container {{ui.getContainerClass()}} m-container--xxl m-container--full-height">
             <div class="m-stack m-stack--ver m-stack--desktop">
                 <!-- BEGIN: Brand -->
-                <div class="m-stack__item m-brand  m-brand--skin-{{ui.getAsideSkin()}} d-print-none">
+                <div class="m-stack__item m-brand  m-brand--skin-{{ui.getAsideSkin()}} d-print-none"  style="display:none">
                     <div class="m-stack m-stack--ver m-stack--general">
                         <div class="m-stack__item m-stack__item--middle m-brand__logo">
                             <a routerLink="/" target="_blank" class="m-brand__logo-wrapper">
-                                <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" [src]="defaultLogo" alt="logo" width="139" height="35" />
-                                <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="remoteServiceBaseUrl + '/TenantCustomization/GetTenantLogo?skin=' + ui.getAsideSkin() + '&tenantId=' + appSession.tenant.id + '&id=' + appSession.tenant.logoId" alt="logo" width="139" height="35" />
+                                <svg class="icon-iconface top-logo-icon" aria-hidden="true">
+                                    <use xlink:href="#icon-xiaoduobao_logo"></use>
+                                </svg>
+
+                                <span class="text">心安救助双返定制版</span>
+                                
+                                <!-- <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" [src]="defaultLogo" alt="logo" width="139" height="35" />
+                                <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="remoteServiceBaseUrl + '/TenantCustomization/GetTenantLogo?skin=' + ui.getAsideSkin() + '&tenantId=' + appSession.tenant.id + '&id=' + appSession.tenant.logoId" alt="logo" width="139" height="35" /> -->
                             </a>
+                            
                         </div>
                         <div class="m-stack__item m-stack__item--middle m-brand__tools">
                             <!-- BEGIN: Left Aside Minimize Toggle -->
@@ -44,11 +52,18 @@
                 </div>
                 <!-- END: Brand -->
                 <div class="m-stack__item m-stack__item--fluid m-header-head d-print-none" id="m_header_nav">
+                    <!-- BEGIN: Topnav -->
+                    <div class="top-nav m-stack m-stack--ver m-stack--general" style="display: none">
+                            <div class="m-stack__item m-topbar__nav-wrapper">
+                                <!-- <app-newtopbarmenu></app-newtopbarmenu> -->
+                            </div>
+                    </div>
+                    <!-- END: Topnav -->
                     <!-- BEGIN: Topbar -->
                     <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
                         <div class="m-stack__item m-topbar__nav-wrapper">
                             <ul class="m-topbar__nav m-nav m-nav--inline">
-                                <li *ngIf="languages.length" class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light m-list-search m-list-search--skin-light m-dropdown--open dropdown-language">
+                                <li *ngIf="languages.length" class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light m-list-search m-list-search--skin-light m-dropdown--open dropdown-language" style="display: none">
                                     <a href="javascript:;" class="m-nav__link m-dropdown__toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                         <i [class]="currentLanguage.icon"></i>
                                         <span class="m-menu__link-text langname">
@@ -65,7 +80,7 @@
                                     </ul>
                                 </li>
 
-                                <li headerNotifications class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true" id="header_notification_bar"></li>
+                                <li headerNotifications class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true" id="header_notification_bar" style="display:none"></li>
 
                                 <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
                                     <a href="javascript:;" class="m-nav__link m-dropdown__toggle">
@@ -238,6 +253,17 @@
         </a>
     </div>
 </header>
+<nav class="new-top-nav-full" *ngIf="isAdmin">
+    <div class="m-stack__item m-stack__item--fluid m-header-head d-print-none" id="m_header_nav">
+        <!-- BEGIN: Topnav -->
+        <div class="top-nav m-stack m-stack--ver m-stack--general">
+            <div class="m-stack__item m-topbar__nav-wrapper">
+                <app-newtopbarmenu></app-newtopbarmenu>
+            </div>
+        </div>
+        <!-- END: Topnav -->
+    </div>
+</nav>
 <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
 <linkedAccountsModal #linkedAccountsModal (modalClose)="getRecentlyLinkedUsers()"></linkedAccountsModal>
 <changePasswordModal #changePasswordModal></changePasswordModal>

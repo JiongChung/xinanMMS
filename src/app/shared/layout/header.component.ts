@@ -27,15 +27,21 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
 import { AppConsts } from '@shared/AppConsts';
 import { SubscriptionStartType, EditionPaymentType } from '@shared/AppEnums';
 
+ import { TopNavNameList } from './top-nav-mock';
+
+
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
 @Component({
     templateUrl: './header.component.html',
+    styleUrls: ['./header.component.less'],
     selector: 'header-bar',
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent extends AppComponentBase implements OnInit {
+
+    public navnamelist = TopNavNameList;
 
     @ViewChild('notificationSettingsModal') notificationSettingsModal: NotificationSettingsModalComponent;
 
@@ -69,6 +75,9 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     subscriptionStartType = SubscriptionStartType;
     editionPaymentType: typeof EditionPaymentType = EditionPaymentType;
 
+    isAdmin: boolean = true;
+
+    
     constructor(
         injector: Injector,
         private _abpSessionService: AbpSessionService,
@@ -104,6 +113,14 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.getRecentlyLinkedUsers();
 
         this.registerToEvents();
+        
+        this.getPermission();
+    }
+
+    getPermission(): void{
+        let formatGrantedPermissions = window.localStorage.getItem('formatGrantedPermissions');
+        // this.isAdmin = (formatGrantedPermissions.indexOf('PagesCustomer') > -1) ? true : false;
+        this.isAdmin = true;
     }
 
     registerToEvents() {

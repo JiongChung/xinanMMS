@@ -81,7 +81,7 @@ export class LanguageTextsComponent extends AppComponentBase implements AfterVie
         this._activatedRoute.params.subscribe((params: Params) => {
             this.baseLanguageName = params['baseLanguageName'] || abp.localization.currentLanguage.name;
             this.targetLanguageName = params['name'];
-            this.sourceName = params['sourceName'] || 'Xdb';
+            this.sourceName = params['sourceName'] || 'Xa';
             this.targetValueFilter = params['targetValueFilter'] || 'ALL';
             this.filterText = params['filterText'] || '';
 

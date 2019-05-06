@@ -17,7 +17,7 @@ export class AppConsts {
     };
 
     static readonly localization = {
-        defaultLocalizationSourceName: 'Xdb'
+        defaultLocalizationSourceName: 'Xa'
     };
 
     static readonly authorization = {

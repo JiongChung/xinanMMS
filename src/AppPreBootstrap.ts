@@ -137,6 +137,11 @@ export class AppPreBootstrap {
             headers: requestHeaders
         }).done(result => {
             $.extend(true, abp, result);
+            window.localStorage.setItem('allPermissions',JSON.stringify(result.auth.allPermissions));
+            let grantedPermissions = JSON.stringify(result.auth.grantedPermissions)
+            window.localStorage.setItem('grantedPermissions',grantedPermissions);
+            grantedPermissions = grantedPermissions.replace(/[.]/g,'');
+            window.localStorage.setItem('formatGrantedPermissions',grantedPermissions);
 
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);
 

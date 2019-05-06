@@ -4,7 +4,7 @@ import {
     FriendDtoState,
     DefaultTimezoneScope,
     UserNotificationState,
-    IsTenantAvailableOutputState,
+    // IsTenantAvailableOutputState,
     IncomeStatisticsDateInterval,
     RegisterTenantInputSubscriptionStartType,
     CreatePaymentDtoEditionPaymentType,
@@ -41,9 +41,9 @@ export class AppUserNotificationState {
 }
 
 export class AppTenantAvailabilityState {
-    static Available: number = IsTenantAvailableOutputState._1;
-    static InActive: number = IsTenantAvailableOutputState._2;
-    static NotFound: number = IsTenantAvailableOutputState._3;
+    // static Available: number = IsTenantAvailableOutputState._1;
+    // static InActive: number = IsTenantAvailableOutputState._2;
+    // static NotFound: number = IsTenantAvailableOutputState._3;
 }
 
 export class AppIncomeStatisticsDateInterval {

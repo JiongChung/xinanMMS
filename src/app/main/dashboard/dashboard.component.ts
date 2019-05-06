@@ -43,15 +43,15 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
         this.salesSummaryChart.showLoading();
         this.generalStatsPieChart.showLoading();
 
-        this._dashboardService
-            .getDashboardData(datePeriod)
-            .subscribe(result => {
-                this.dashboardHeaderStats.init(result.totalProfit, result.newFeedbacks, result.newOrders, result.newUsers);
-                this.generalStatsPieChart.init(result.transactionPercent, result.newVisitPercent, result.bouncePercent);
-                this.dailySalesLineChart.init(result.dailySales);
-                this.profitSharePieChart.init(result.profitShares);
-                this.salesSummaryChart.init(result.salesSummary, result.totalSales, result.revenue, result.expenses, result.growth);
-            });
+        // this._dashboardService
+        //     .getDashboardData(datePeriod)
+        //     .subscribe(result => {
+        //         this.dashboardHeaderStats.init(result.totalProfit, result.newFeedbacks, result.newOrders, result.newUsers);
+        //         this.generalStatsPieChart.init(result.transactionPercent, result.newVisitPercent, result.bouncePercent);
+        //         this.dailySalesLineChart.init(result.dailySales);
+        //         this.profitSharePieChart.init(result.profitShares);
+        //         this.salesSummaryChart.init(result.salesSummary, result.totalSales, result.revenue, result.expenses, result.growth);
+        //     });
     }
 
     ngAfterViewInit(): void {
@@ -75,8 +75,6 @@ abstract class DashboardChartBase {
 }
 
 class SalesSummaryChart extends DashboardChartBase {
-    //Sales summary => MorrisJs: https://github.com/morrisjs/morris.js/
-
     instance: morris.GridChart;
     totalSales = 0; totalSalesCounter = 0;
     revenue = 0; revenuesCounter = 0;
@@ -88,24 +86,24 @@ class SalesSummaryChart extends DashboardChartBase {
     }
 
     init(salesSummaryData, totalSales, revenue, expenses, growth) {
-        this.instance = Morris.Area({
-            element: this._containerElement,
-            padding: 0,
-            behaveLikeLine: false,
-            gridEnabled: false,
-            gridLineColor: 'transparent',
-            axes: false,
-            fillOpacity: 1,
-            data: salesSummaryData,
-            lineColors: ['#399a8c', '#92e9dc'],
-            xkey: 'period',
-            ykeys: ['sales', 'profit'],
-            labels: ['Sales', 'Profit'],
-            pointSize: 0,
-            lineWidth: 0,
-            hideHover: 'auto',
-            resize: true
-        });
+        // this.instance = Morris.Area({
+        //     element: this._containerElement,
+        //     padding: 0,
+        //     behaveLikeLine: false,
+        //     gridEnabled: false,
+        //     gridLineColor: 'transparent',
+        //     axes: false,
+        //     fillOpacity: 1,
+        //     data: salesSummaryData,
+        //     lineColors: ['#399a8c', '#92e9dc'],
+        //     xkey: 'period',
+        //     ykeys: ['sales', 'profit'],
+        //     labels: ['Sales', 'Profit'],
+        //     pointSize: 0,
+        //     lineWidth: 0,
+        //     hideHover: 'auto',
+        //     resize: true
+        // });
 
         this.totalSales = totalSales;
         this.totalSalesCounter = totalSales;

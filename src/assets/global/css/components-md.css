@@ -13433,7 +13433,7 @@ Custom tabs
           color: #404040; }
     .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
       background: none;
-      border-bottom: 4px solid #9fe4ea; }
+      border-bottom: 4px solid #4d8dff; }
       .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
         border: 0;
         background: none !important;

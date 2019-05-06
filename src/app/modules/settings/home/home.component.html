@@ -1,0 +1,41 @@
+<div class="m-grid__item-wrapper">
+        <div  id="m_aside_left" class="m-grid__item m-aside-left">
+            <div id="m_ver_menu">
+                <div>
+                     <ul>
+                        <li *ngFor="let sub of SubMenu; let key = index">
+                            
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle"  (click)="sub.subbackname=!sub.subbackname">
+                                <i class="m-menu__link-icon"></i>
+                                <span class="m-menu__link-text">
+                                    <span class="title"> {{sub.subname}}</span>
+                                </span>
+
+                                <i class="m-menu__hor-arrow la la-angle-down" *ngIf="sub.subbackname"></i>
+                                <i class="m-menu__hor-arrow la la-angle-up" *ngIf="!sub.subbackname"></i>
+                            </a>
+                    
+                            
+                            <div class="m-menu__submenu" *ngIf="sub.subbackname">
+                            <ol class="m-menu__subnav">
+                                <li *ngFor="let last of sub.list">
+                                    <a [routerLink]="[last.url]"class="m-menu__link" routerLinkActive="active">
+                                        <i class="m-menu__link-icon"></i>
+                                        <span class="m-menu__link-text">
+                                            <span class="title">{{last.lastname}}</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ol>
+                            </div>
+                        </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        <div class="m-grid__item m-grid__item--fluid m-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+    

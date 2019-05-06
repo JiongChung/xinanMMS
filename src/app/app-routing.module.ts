@@ -29,7 +29,24 @@ import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
                         path: 'admin',
                         loadChildren: 'app/admin/admin.module#AdminModule', //Lazy load admin module
                         data: { preload: true }
-                    }, {
+                    },
+                    
+                    {
+                        path: 'admin/orders',
+                        loadChildren: 'app/modules/orders/orders.module#OrdersModule', //Lazy load admin module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'admin/client',
+                        loadChildren: 'app/modules/client/client.module#ClientModule', //Lazy load admin module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'admin/settings',
+                        loadChildren: 'app/modules/settings/settings.module#SettingsModule', //Lazy load admin module
+                        data: { preload: true }
+                    },
+                   {
                         path: '**', redirectTo: 'notifications'
                     }
                 ]

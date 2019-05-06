@@ -6,6 +6,7 @@ import {sideNavCnname} from '../shared/layout/newsidebarmenu/nav';
 export class CommonserviceService {
 
     public sidemenu = sideNavNameList;
+    public sidenavlist = sideNavNameList;
     public cnname = sideNavCnname;
     public cnmenu: any;
     public SubMenu: any;   //左边二三级显示
@@ -44,13 +45,34 @@ export class CommonserviceService {
                 if (firstname != this.cnmenu[firstname] && this.cnmenu[firstname] != undefined) {
                     this.sidemenu[i].name = this.cnmenu[firstname];
                 }
-
+                let permission = 'permission';
+                let permissionName = 'permissionName';
                 this.FirstMenu.push({
                     name: this.sidemenu[i].name,
                     url: this.sidemenu[i].url,
                     icon: this.sidemenu[i].icon,
-                    value: this.sidemenu[i].value.replace('&amp;', '&')
+                    value: this.sidemenu[i].value.replace('&amp;', '&'),
+                    permission: this.sidemenu[i][permission],
+                    permissionName: this.sidemenu[i][permissionName]
                 });
+                // if(this.sidenavlist[i].permission == undefined){
+                //     this.FirstMenu.push({
+                //         name: this.sidemenu[i].name,
+                //         url: this.sidemenu[i].url,
+                //         icon: this.sidemenu[i].icon,
+                //         value: this.sidemenu[i].value.replace('&amp;', '&')
+                //     });
+                // }else{
+                //     this.FirstMenu.push({
+                //         name: this.sidemenu[i].name,
+                //         url: this.sidemenu[i].url,
+                //         icon: this.sidemenu[i].icon,
+                //         value: this.sidemenu[i].value.replace('&amp;', '&'),
+                //         permission: this.sidenavlist[i].permission,
+                //         permissionName: this.sidenavlist[i].permissionName
+                //     });
+                // }
+                
             }
 
         }
