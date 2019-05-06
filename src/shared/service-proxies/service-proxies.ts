@@ -37,8 +37,8 @@ export class AccountServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    isTenantAvailable(input: IsTenantAvailableInput | null): Observable<IsTenantAvailableOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Account/IsTenantAvailable";
+    login(input: LoginInput | null): Observable<LoginOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Account/Login";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -54,20 +54,20 @@ export class AccountServiceProxy {
         };
 
         return this.http.request("post", url_, options_).flatMap((response_ : any) => {
-            return this.processIsTenantAvailable(response_);
+            return this.processLogin(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponse) {
                 try {
-                    return this.processIsTenantAvailable(response_);
+                    return this.processLogin(response_);
                 } catch (e) {
-                    return <Observable<IsTenantAvailableOutput>><any>Observable.throw(e);
+                    return <Observable<LoginOutput>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<IsTenantAvailableOutput>><any>Observable.throw(response_);
+                return <Observable<LoginOutput>><any>Observable.throw(response_);
         });
     }
 
-    protected processIsTenantAvailable(response: HttpResponse<Blob>): Observable<IsTenantAvailableOutput> {
+    protected processLogin(response: HttpResponse<Blob>): Observable<LoginOutput> {
         const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -75,7 +75,7 @@ export class AccountServiceProxy {
             return blobToText(response.body).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? IsTenantAvailableOutput.fromJS(resultData200) : new IsTenantAvailableOutput();
+            result200 = resultData200 ? LoginOutput.fromJS(resultData200) : new LoginOutput();
             return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
@@ -83,7 +83,60 @@ export class AccountServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<IsTenantAvailableOutput>(<any>null);
+        return Observable.of<LoginOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    loginWithSCode(input: LoginWithSCodeInput | null): Observable<LoginOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Account/LoginWithSCode";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processLoginWithSCode(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processLoginWithSCode(response_);
+                } catch (e) {
+                    return <Observable<LoginOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<LoginOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processLoginWithSCode(response: HttpResponse<Blob>): Observable<LoginOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LoginOutput.fromJS(resultData200) : new LoginOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<LoginOutput>(<any>null);
     }
 
     /**
@@ -137,6 +190,55 @@ export class AccountServiceProxy {
             });
         }
         return Observable.of<RegisterOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    sendSmsCode(input: SendSmsCodeInput | null): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/SendSmsCode";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processSendSmsCode(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processSendSmsCode(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processSendSmsCode(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
     }
 
     /**
@@ -7473,6 +7575,93 @@ export class UserServiceProxy {
 }
 
 @Injectable()
+export class UserAdminServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @nickName (optional) 
+     * @phoneNumber (optional) 
+     * @userGradeId (optional) 
+     * @creationTimeFrom (optional) 
+     * @creationTimeTo (optional) 
+     * @sorting (optional) 
+     * @return Success
+     */
+    getUsers(nickName: string | null, phoneNumber: string | null, userGradeId: number | null, creationTimeFrom: moment.Moment | null, creationTimeTo: moment.Moment | null, sorting: string | null, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfGetUsersOutput> {
+        let url_ = this.baseUrl + "/api/services/app/UserAdmin/GetUsers?";
+        if (nickName !== undefined)
+            url_ += "NickName=" + encodeURIComponent("" + nickName) + "&"; 
+        if (phoneNumber !== undefined)
+            url_ += "PhoneNumber=" + encodeURIComponent("" + phoneNumber) + "&"; 
+        if (userGradeId !== undefined)
+            url_ += "UserGradeId=" + encodeURIComponent("" + userGradeId) + "&"; 
+        if (creationTimeFrom !== undefined)
+            url_ += "CreationTimeFrom=" + encodeURIComponent(creationTimeFrom ? "" + creationTimeFrom.toJSON() : "") + "&"; 
+        if (creationTimeTo !== undefined)
+            url_ += "CreationTimeTo=" + encodeURIComponent(creationTimeTo ? "" + creationTimeTo.toJSON() : "") + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount === undefined || maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
+        else
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount === undefined || skipCount === null)
+            throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
+        else
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetUsers(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetUsers(response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetUsersOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetUsersOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetUsers(response: HttpResponse<Blob>): Observable<PagedResultDtoOfGetUsersOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfGetUsersOutput.fromJS(resultData200) : new PagedResultDtoOfGetUsersOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfGetUsersOutput>(<any>null);
+    }
+}
+
+@Injectable()
 export class UserLinkServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -7862,10 +8051,11 @@ export class WebLogServiceProxy {
     }
 }
 
-export class IsTenantAvailableInput implements IIsTenantAvailableInput {
-    tenancyName: string;
+export class LoginInput implements ILoginInput {
+    phoneNumber: string;
+    password: string;
 
-    constructor(data?: IIsTenantAvailableInput) {
+    constructor(data?: ILoginInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -7876,33 +8066,37 @@ export class IsTenantAvailableInput implements IIsTenantAvailableInput {
 
     init(data?: any) {
         if (data) {
-            this.tenancyName = data["tenancyName"];
+            this.phoneNumber = data["phoneNumber"];
+            this.password = data["password"];
         }
     }
 
-    static fromJS(data: any): IsTenantAvailableInput {
-        let result = new IsTenantAvailableInput();
+    static fromJS(data: any): LoginInput {
+        let result = new LoginInput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["tenancyName"] = this.tenancyName;
+        data["phoneNumber"] = this.phoneNumber;
+        data["password"] = this.password;
         return data; 
     }
 }
 
-export interface IIsTenantAvailableInput {
-    tenancyName: string;
+export interface ILoginInput {
+    phoneNumber: string;
+    password: string;
 }
 
-export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
-    state: IsTenantAvailableOutputState | undefined;
-    tenantId: number | undefined;
-    serverRootAddress: string | undefined;
+export class LoginOutput implements ILoginOutput {
+    userId: number | undefined;
+    phoneNumber: string | undefined;
+    userName: string | undefined;
+    profilePictureId: string | undefined;
 
-    constructor(data?: IIsTenantAvailableOutput) {
+    constructor(data?: ILoginOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -7913,40 +8107,83 @@ export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
 
     init(data?: any) {
         if (data) {
-            this.state = data["state"];
-            this.tenantId = data["tenantId"];
-            this.serverRootAddress = data["serverRootAddress"];
+            this.userId = data["userId"];
+            this.phoneNumber = data["phoneNumber"];
+            this.userName = data["userName"];
+            this.profilePictureId = data["profilePictureId"];
         }
     }
 
-    static fromJS(data: any): IsTenantAvailableOutput {
-        let result = new IsTenantAvailableOutput();
+    static fromJS(data: any): LoginOutput {
+        let result = new LoginOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["state"] = this.state;
-        data["tenantId"] = this.tenantId;
-        data["serverRootAddress"] = this.serverRootAddress;
+        data["userId"] = this.userId;
+        data["phoneNumber"] = this.phoneNumber;
+        data["userName"] = this.userName;
+        data["profilePictureId"] = this.profilePictureId;
         return data; 
     }
 }
 
-export interface IIsTenantAvailableOutput {
-    state: IsTenantAvailableOutputState | undefined;
-    tenantId: number | undefined;
-    serverRootAddress: string | undefined;
+export interface ILoginOutput {
+    userId: number | undefined;
+    phoneNumber: string | undefined;
+    userName: string | undefined;
+    profilePictureId: string | undefined;
+}
+
+export class LoginWithSCodeInput implements ILoginWithSCodeInput {
+    phoneNumber: string;
+    phoneNumberCode: string;
+
+    constructor(data?: ILoginWithSCodeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.phoneNumber = data["phoneNumber"];
+            this.phoneNumberCode = data["phoneNumberCode"];
+        }
+    }
+
+    static fromJS(data: any): LoginWithSCodeInput {
+        let result = new LoginWithSCodeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["phoneNumber"] = this.phoneNumber;
+        data["phoneNumberCode"] = this.phoneNumberCode;
+        return data; 
+    }
+}
+
+export interface ILoginWithSCodeInput {
+    phoneNumber: string;
+    phoneNumberCode: string;
 }
 
 export class RegisterInput implements IRegisterInput {
-    name: string;
-    surname: string;
-    userName: string;
-    emailAddress: string;
-    password: string;
-    captchaResponse: string | undefined;
+    districtId: number;
+    phoneNumber: string;
+    phoneNumberCode: string;
+    password: string | undefined;
+    wechatOpenId: string | undefined;
+    longitude: string | undefined;
+    latitude: string | undefined;
 
     constructor(data?: IRegisterInput) {
         if (data) {
@@ -7959,12 +8196,13 @@ export class RegisterInput implements IRegisterInput {
 
     init(data?: any) {
         if (data) {
-            this.name = data["name"];
-            this.surname = data["surname"];
-            this.userName = data["userName"];
-            this.emailAddress = data["emailAddress"];
+            this.districtId = data["districtId"];
+            this.phoneNumber = data["phoneNumber"];
+            this.phoneNumberCode = data["phoneNumberCode"];
             this.password = data["password"];
-            this.captchaResponse = data["captchaResponse"];
+            this.wechatOpenId = data["wechatOpenId"];
+            this.longitude = data["longitude"];
+            this.latitude = data["latitude"];
         }
     }
 
@@ -7976,27 +8214,35 @@ export class RegisterInput implements IRegisterInput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["userName"] = this.userName;
-        data["emailAddress"] = this.emailAddress;
+        data["districtId"] = this.districtId;
+        data["phoneNumber"] = this.phoneNumber;
+        data["phoneNumberCode"] = this.phoneNumberCode;
         data["password"] = this.password;
-        data["captchaResponse"] = this.captchaResponse;
+        data["wechatOpenId"] = this.wechatOpenId;
+        data["longitude"] = this.longitude;
+        data["latitude"] = this.latitude;
         return data; 
     }
 }
 
 export interface IRegisterInput {
-    name: string;
-    surname: string;
-    userName: string;
-    emailAddress: string;
-    password: string;
-    captchaResponse: string | undefined;
+    districtId: number;
+    phoneNumber: string;
+    phoneNumberCode: string;
+    password: string | undefined;
+    wechatOpenId: string | undefined;
+    longitude: string | undefined;
+    latitude: string | undefined;
 }
 
 export class RegisterOutput implements IRegisterOutput {
     canLogin: boolean | undefined;
+    userId: number | undefined;
+    phoneNumber: string | undefined;
+    userName: string | undefined;
+    profilePictureId: string | undefined;
+    inviteCode: string | undefined;
+    profileImageUrl: string | undefined;
 
     constructor(data?: IRegisterOutput) {
         if (data) {
@@ -8010,6 +8256,12 @@ export class RegisterOutput implements IRegisterOutput {
     init(data?: any) {
         if (data) {
             this.canLogin = data["canLogin"];
+            this.userId = data["userId"];
+            this.phoneNumber = data["phoneNumber"];
+            this.userName = data["userName"];
+            this.profilePictureId = data["profilePictureId"];
+            this.inviteCode = data["inviteCode"];
+            this.profileImageUrl = data["profileImageUrl"];
         }
     }
 
@@ -8022,12 +8274,59 @@ export class RegisterOutput implements IRegisterOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["canLogin"] = this.canLogin;
+        data["userId"] = this.userId;
+        data["phoneNumber"] = this.phoneNumber;
+        data["userName"] = this.userName;
+        data["profilePictureId"] = this.profilePictureId;
+        data["inviteCode"] = this.inviteCode;
+        data["profileImageUrl"] = this.profileImageUrl;
         return data; 
     }
 }
 
 export interface IRegisterOutput {
     canLogin: boolean | undefined;
+    userId: number | undefined;
+    phoneNumber: string | undefined;
+    userName: string | undefined;
+    profilePictureId: string | undefined;
+    inviteCode: string | undefined;
+    profileImageUrl: string | undefined;
+}
+
+export class SendSmsCodeInput implements ISendSmsCodeInput {
+    phoneNumber: string;
+
+    constructor(data?: ISendSmsCodeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.phoneNumber = data["phoneNumber"];
+        }
+    }
+
+    static fromJS(data: any): SendSmsCodeInput {
+        let result = new SendSmsCodeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["phoneNumber"] = this.phoneNumber;
+        return data; 
+    }
+}
+
+export interface ISendSmsCodeInput {
+    phoneNumber: string;
 }
 
 export class SendPasswordResetCodeInput implements ISendPasswordResetCodeInput {
@@ -15420,6 +15719,8 @@ export class AuthenticateModel implements IAuthenticateModel {
     twoFactorRememberClientToken: string | undefined;
     singleSignIn: boolean | undefined;
     returnUrl: string | undefined;
+    phoneNumberCode: string | undefined;
+    wechatOpenId: string | undefined;
 
     constructor(data?: IAuthenticateModel) {
         if (data) {
@@ -15439,6 +15740,8 @@ export class AuthenticateModel implements IAuthenticateModel {
             this.twoFactorRememberClientToken = data["twoFactorRememberClientToken"];
             this.singleSignIn = data["singleSignIn"];
             this.returnUrl = data["returnUrl"];
+            this.phoneNumberCode = data["phoneNumberCode"];
+            this.wechatOpenId = data["wechatOpenId"];
         }
     }
 
@@ -15457,6 +15760,8 @@ export class AuthenticateModel implements IAuthenticateModel {
         data["twoFactorRememberClientToken"] = this.twoFactorRememberClientToken;
         data["singleSignIn"] = this.singleSignIn;
         data["returnUrl"] = this.returnUrl;
+        data["phoneNumberCode"] = this.phoneNumberCode;
+        data["wechatOpenId"] = this.wechatOpenId;
         return data; 
     }
 }
@@ -15469,6 +15774,8 @@ export interface IAuthenticateModel {
     twoFactorRememberClientToken: string | undefined;
     singleSignIn: boolean | undefined;
     returnUrl: string | undefined;
+    phoneNumberCode: string | undefined;
+    wechatOpenId: string | undefined;
 }
 
 export class AuthenticateResultModel implements IAuthenticateResultModel {
@@ -16637,6 +16944,128 @@ export interface ICreateOrUpdateUserInput {
     organizationUnits: number[] | undefined;
 }
 
+export class PagedResultDtoOfGetUsersOutput implements IPagedResultDtoOfGetUsersOutput {
+    totalCount: number | undefined;
+    items: GetUsersOutput[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetUsersOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(GetUsersOutput.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetUsersOutput {
+        let result = new PagedResultDtoOfGetUsersOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetUsersOutput {
+    totalCount: number | undefined;
+    items: GetUsersOutput[] | undefined;
+}
+
+export class GetUsersOutput implements IGetUsersOutput {
+    id: number | undefined;
+    surname: string | undefined;
+    nickName: string | undefined;
+    realName: string | undefined;
+    profileImageUrl: string | undefined;
+    phoneNumber: string | undefined;
+    userGrade: string | undefined;
+    distric: string | undefined;
+    isVerifiedIdentity: boolean | undefined;
+    creationTime: moment.Moment | undefined;
+    birth: moment.Moment | undefined;
+
+    constructor(data?: IGetUsersOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.surname = data["surname"];
+            this.nickName = data["nickName"];
+            this.realName = data["realName"];
+            this.profileImageUrl = data["profileImageUrl"];
+            this.phoneNumber = data["phoneNumber"];
+            this.userGrade = data["userGrade"];
+            this.distric = data["distric"];
+            this.isVerifiedIdentity = data["isVerifiedIdentity"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.birth = data["birth"] ? moment(data["birth"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetUsersOutput {
+        let result = new GetUsersOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["surname"] = this.surname;
+        data["nickName"] = this.nickName;
+        data["realName"] = this.realName;
+        data["profileImageUrl"] = this.profileImageUrl;
+        data["phoneNumber"] = this.phoneNumber;
+        data["userGrade"] = this.userGrade;
+        data["distric"] = this.distric;
+        data["isVerifiedIdentity"] = this.isVerifiedIdentity;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["birth"] = this.birth ? this.birth.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetUsersOutput {
+    id: number | undefined;
+    surname: string | undefined;
+    nickName: string | undefined;
+    realName: string | undefined;
+    profileImageUrl: string | undefined;
+    phoneNumber: string | undefined;
+    userGrade: string | undefined;
+    distric: string | undefined;
+    isVerifiedIdentity: boolean | undefined;
+    creationTime: moment.Moment | undefined;
+    birth: moment.Moment | undefined;
+}
+
 export class LinkToUserInput implements ILinkToUserInput {
     tenancyName: string | undefined;
     usernameOrEmailAddress: string;
@@ -17039,12 +17468,6 @@ export enum DefaultTimezoneScope {
     _2 = 2, 
     _4 = 4, 
     _7 = 7, 
-}
-
-export enum IsTenantAvailableOutputState {
-    _1 = 1, 
-    _2 = 2, 
-    _3 = 3, 
 }
 
 export enum FriendDtoState {
