@@ -1,3 +1,84 @@
 <div [@routerTransition]>
-    会员列表
+    <div class="m-subheader new-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title">
+                    <span>会员列表</span>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <app-userlist-search (ListenSearch)="getSearchData($event)"></app-userlist-search>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+                <div class="new-table-scrollable">
+                    <div class="totalCount"><span>共{{primengDatatableHelper.totalRecordsCount}}条记录</span></div>
+                    <p-dataTable #dataTable
+                            (onLazyLoad)="getUsers($event)"
+                            [value]="primengDatatableHelper.records"
+                            rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                            [paginator]="false"
+                            [lazy]="true"
+                            emptyMessage="{{l('NoData')}}"
+                            scrollable="true"
+                            ScrollWidth="100%"
+                            responsive="primengDatatableHelper.isResponsive">
+                        <p-column field="serialnumber" header="#" [style]="{'width':'60px','text-align':'center'}">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.serialnumber}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="nickName" header="昵称">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.nickName}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="phoneNumber" header="手机">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.phoneNumber}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="userGrade" header="会员等级">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.userGrade}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="distric" header="注册区域">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.distric}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="creationTime" header="注册时间">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                {{record.creationTime | date:"yyyy-MM-dd"}}
+                            </ng-template>
+                        </p-column>
+                        <p-column field="isVerifiedIdentity" header="是否实名验证">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <span class="label label-sm label-danger" [hidden]="record.isVerifiedIdentity">否</span>
+                                <span class="label label-sm label-success" [hidden]="!record.isVerifiedIdentity">是</span>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="Options" header="操作">
+                            <ng-template let-record="rowData" pTemplate="body">
+                                <button type="button" class="btn default">编辑</button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <div class="primeng-paging-container" style="margin-top: 10px">
+                        <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                                #paginator
+                                (onPageChange)="getUsers($event)"
+                                [totalRecords]="primengDatatableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengDatatableHelper.predefinedRecordsCountPerPage">
+                        </p-paginator>
+                        <span class="total-records-count">
+                            {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

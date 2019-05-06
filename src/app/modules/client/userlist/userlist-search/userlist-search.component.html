@@ -1,0 +1,54 @@
+
+<div class="new-search-item">
+    <form role="form" class="form-horizontal">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">用户昵称</b>
+                    </span>
+                    <input type="text" class="form-control" [(ngModel)]='NickName' name="NickName" placeholder="请输入用户昵称">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">用户手机</b>
+                    </span>
+                    <input type="text" class="form-control" [(ngModel)]='PhoneNumber' name="PhoneNumber" placeholder="请输入用户手机">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">用户等级</b>
+                    </span>
+                    <select class="form-control" name="UserGradeId" [(ngModel)]="UserGradeId">
+                        <option value="" selected="selected">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">注册日期</b>
+                    </span>
+                    <input type="datetime" #startDatePicker name="CreationTimeFrom" placeholder="请选择开始日期" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">至：</b>
+                    </span>
+                    <input type="datetime" #endDatePicker name="CreationTimeTo" placeholder="请选择结束日期" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="search-item">
+                    <button type="submit" class="btn yellow" (click)="submitSearch()">查询</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

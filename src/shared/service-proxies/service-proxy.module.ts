@@ -39,6 +39,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.SubscriptionServiceProxy,
         ApiServiceProxies.InstallServiceProxy,
         ApiServiceProxies.UiCustomizationSettingsServiceProxy,
+        ApiServiceProxies.UserAdminServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

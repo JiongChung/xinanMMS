@@ -194,7 +194,7 @@ input[type="number"]{-moz-appearance:textfield;}
     padding: 5px 10px;
 }
 .totalCount span{
-    background: #3598dc;color: #ffffff;padding: 3px 5px;display: inline-block;font-size: 12px;border-radius: 20px !important;
+    background: #c5b96b;color: #ffffff;padding: 3px 5px;display: inline-block;font-size: 12px;border-radius: 20px !important;
 }
 
 .badge.badge-warning{
@@ -1178,4 +1178,8 @@ option:disabled{
 
 .rechargeDetailModal .label.label-sm{
     font-size: 12px;
+}
+
+body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight{
+    background: #c49f47 !important;
 }

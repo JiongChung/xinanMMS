@@ -11,6 +11,7 @@ import {FileUploadModule} from '@node_modules/ng2-file-upload';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ClientNumberInterceptPipe } from '../../pipe/client-number-intercept.pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { UserlistSearchComponent } from './userlist/userlist-search/userlist-search.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     declarations: [
         HomeComponent, 
         UserlistComponent, 
-        ClientNumberInterceptPipe
+        ClientNumberInterceptPipe, UserlistSearchComponent
     ]
 })
 export class ClientModule {

@@ -76,9 +76,14 @@
 
         "../src/app/shared/core.less",
         "../src/app/shared/layout/layout.less",
-
         "./assets/fonts/fonts-poppins.css",
         "./assets/fonts/fonts-roboto.css",
+        "./assets/bootstrap/bootstrap.css",
+        "./assets/fonticon/iconfont.css",
+        "./assets/layout/css/layout.css",
+        "./assets/global/css/components.css",
+        "./assets/global/css/plugins.css",
+        "./assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css",
 
         "styles.css"
       ],

@@ -112,7 +112,7 @@
   margin-right: 0px !important;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator span a.ui-state-active {
-  background: #716aca;
+  background: #c49f47;
   color: #fff;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator span a:hover {
@@ -144,11 +144,11 @@
   font-size: 1rem;
   line-height: 1rem;
   font-weight: 400;
-  background-color: #edecf8;
+  background-color: #fefaf1;
   opacity: 1 !important;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator a:hover {
-  background-color: #deddf3;
+  background-color: #f7f2e7;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator a.ui-paginator-first span.fa-step-backward:before {
   content: "\f100" !important;
@@ -163,7 +163,7 @@
   content: "\f101" !important;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator a span {
-  color: #5867dd;
+  color: #c49f47;
 }
 .primeng-datatable-container .primeng-paging-container .ui-paginator .ui-paginator-rpp-options {
   float: left;
