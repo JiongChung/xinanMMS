@@ -26,6 +26,7 @@ export class UserlistComponent extends AppComponentBase implements OnInit {
 
     totalResult:any = [];
     currentPageTotal:number = 0;
+    copyList: Array<any> = [];
 
     constructor(
         injector:Injector,
@@ -67,9 +68,11 @@ export class UserlistComponent extends AppComponentBase implements OnInit {
         ).subscribe(data => {
             this.primengDatatableHelper.totalRecordsCount = data.totalCount;
             this.totalResult = data.items;
+            
             for(let i=0; i<data.items.length; i++){
                 this.totalResult[i].serialnumber = i + 1 + this.currentPageTotal;
             }
+            this.copyList = data.items;
             this.primengDatatableHelper.records = this.totalResult;
             this.primengDatatableHelper.hideLoadingIndicator();
         })

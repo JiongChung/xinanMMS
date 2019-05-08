@@ -12,6 +12,7 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { ClientNumberInterceptPipe } from '../../pipe/client-number-intercept.pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { UserlistSearchComponent } from './userlist/userlist-search/userlist-search.component';
+import { CreateOrEditUserlistModalComponent } from './userlist/create-or-edit-userlist-modal/create-or-edit-userlist-modal.component';
 
 @NgModule({
     imports: [
@@ -37,7 +38,7 @@ import { UserlistSearchComponent } from './userlist/userlist-search/userlist-sea
     declarations: [
         HomeComponent, 
         UserlistComponent, 
-        ClientNumberInterceptPipe, UserlistSearchComponent
+        ClientNumberInterceptPipe, UserlistSearchComponent, CreateOrEditUserlistModalComponent
     ]
 })
 export class ClientModule {

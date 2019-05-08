@@ -62,7 +62,7 @@
                         </p-column>
                         <p-column field="Options" header="操作">
                             <ng-template let-record="rowData" pTemplate="body">
-                                <button type="button" class="btn default">编辑</button>
+                                <button type="button" class="btn default" (click)="CreateOrEditUserlistModal.show(record.id)">编辑</button>
                             </ng-template>
                         </p-column>
                     </p-dataTable>
@@ -82,3 +82,4 @@
         </div>
     </div>
 </div>
+<CreateOrEditUserlistModal #CreateOrEditUserlistModal [copyList]="copyList" (modalSave)="getUsers()"></CreateOrEditUserlistModal>
