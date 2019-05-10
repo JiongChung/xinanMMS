@@ -598,6 +598,124 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AlipayServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    notify(): Observable<void> {
+        let url_ = this.baseUrl + "/api/Alipay/Notify";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processNotify(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processNotify(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processNotify(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class AliyunOSSServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getUploadParameters(): Observable<AliyunOSSUploadOutput> {
+        let url_ = this.baseUrl + "/api/services/app/AliyunOSS/GetUploadParameters";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetUploadParameters(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetUploadParameters(response_);
+                } catch (e) {
+                    return <Observable<AliyunOSSUploadOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<AliyunOSSUploadOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetUploadParameters(response: HttpResponse<Blob>): Observable<AliyunOSSUploadOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AliyunOSSUploadOutput.fromJS(resultData200) : new AliyunOSSUploadOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<AliyunOSSUploadOutput>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditLogServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -1611,6 +1729,124 @@ export class DemoUiComponentsServiceProxy {
             });
         }
         return Observable.of<StringOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class DistrictServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getDistrictSet(input: number): Observable<number[]> {
+        let url_ = this.baseUrl + "/api/services/app/District/GetDistrictSet?";
+        if (input === undefined || input === null)
+            throw new Error("The parameter 'input' must be defined and cannot be null.");
+        else
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetDistrictSet(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetDistrictSet(response_);
+                } catch (e) {
+                    return <Observable<number[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<number[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetDistrictSet(response: HttpResponse<Blob>): Observable<number[]> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<number[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getDistrictsForSGApp(): Observable<ListResultDtoOfDistrictOutput> {
+        let url_ = this.baseUrl + "/api/services/app/District/GetDistrictsForSGApp";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetDistrictsForSGApp(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetDistrictsForSGApp(response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfDistrictOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfDistrictOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetDistrictsForSGApp(response: HttpResponse<Blob>): Observable<ListResultDtoOfDistrictOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfDistrictOutput.fromJS(resultData200) : new ListResultDtoOfDistrictOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfDistrictOutput>(<any>null);
     }
 }
 
@@ -3160,6 +3396,572 @@ export class LanguageServiceProxy {
             });
         }
         return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class MyAddressServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getMyAddress(): Observable<ListResultDtoOfMyAddressDto> {
+        let url_ = this.baseUrl + "/api/services/app/MyAddress/GetMyAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetMyAddress(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetMyAddress(response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfMyAddressDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfMyAddressDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetMyAddress(response: HttpResponse<Blob>): Observable<ListResultDtoOfMyAddressDto> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfMyAddressDto.fromJS(resultData200) : new ListResultDtoOfMyAddressDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfMyAddressDto>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    createOrUpdateMyAddress(input: MyAddressDto | null): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MyAddress/CreateOrUpdateMyAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processCreateOrUpdateMyAddress(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processCreateOrUpdateMyAddress(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateOrUpdateMyAddress(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    resetExistsIsDefaultToFalse(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MyAddress/ResetExistsIsDefaultToFalse";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processResetExistsIsDefaultToFalse(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processResetExistsIsDefaultToFalse(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processResetExistsIsDefaultToFalse(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    deleteMyAddress(id: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MyAddress/DeleteMyAddress?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+            return this.processDeleteMyAddress(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processDeleteMyAddress(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDeleteMyAddress(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getMyAddressForEdit(id: number | null): Observable<GetMyAddressForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyAddress/GetMyAddressForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetMyAddressForEdit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetMyAddressForEdit(response_);
+                } catch (e) {
+                    return <Observable<GetMyAddressForEditOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetMyAddressForEditOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetMyAddressForEdit(response: HttpResponse<Blob>): Observable<GetMyAddressForEditOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetMyAddressForEditOutput.fromJS(resultData200) : new GetMyAddressForEditOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetMyAddressForEditOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class MyProfileServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getMyProfile(): Observable<GetMyProfileOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetMyProfile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetMyProfile(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetMyProfile(response_);
+                } catch (e) {
+                    return <Observable<GetMyProfileOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetMyProfileOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetMyProfile(response: HttpResponse<Blob>): Observable<GetMyProfileOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetMyProfileOutput.fromJS(resultData200) : new GetMyProfileOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetMyProfileOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getPublicAnnouncement(): Observable<GetPublicAnnouncementOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetPublicAnnouncement";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPublicAnnouncement(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetPublicAnnouncement(response_);
+                } catch (e) {
+                    return <Observable<GetPublicAnnouncementOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetPublicAnnouncementOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPublicAnnouncement(response: HttpResponse<Blob>): Observable<GetPublicAnnouncementOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPublicAnnouncementOutput.fromJS(resultData200) : new GetPublicAnnouncementOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetPublicAnnouncementOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getApplyMutualAid(): Observable<GetApplyMutualAidOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetApplyMutualAid";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetApplyMutualAid(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetApplyMutualAid(response_);
+                } catch (e) {
+                    return <Observable<GetApplyMutualAidOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetApplyMutualAidOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetApplyMutualAid(response: HttpResponse<Blob>): Observable<GetApplyMutualAidOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetApplyMutualAidOutput.fromJS(resultData200) : new GetApplyMutualAidOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetApplyMutualAidOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getInviteShare(): Observable<GetInviteShareOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetInviteShare";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetInviteShare(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetInviteShare(response_);
+                } catch (e) {
+                    return <Observable<GetInviteShareOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetInviteShareOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetInviteShare(response: HttpResponse<Blob>): Observable<GetInviteShareOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetInviteShareOutput.fromJS(resultData200) : new GetInviteShareOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetInviteShareOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAbout(): Observable<GetAboutOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetAbout";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetAbout(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetAbout(response_);
+                } catch (e) {
+                    return <Observable<GetAboutOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetAboutOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetAbout(response: HttpResponse<Blob>): Observable<GetAboutOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAboutOutput.fromJS(resultData200) : new GetAboutOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetAboutOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getDocumentationDetail(typeId: number): Observable<GetDocumentationDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/MyProfile/GetDocumentationDetail?";
+        if (typeId === undefined || typeId === null)
+            throw new Error("The parameter 'typeId' must be defined and cannot be null.");
+        else
+            url_ += "TypeId=" + encodeURIComponent("" + typeId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetDocumentationDetail(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetDocumentationDetail(response_);
+                } catch (e) {
+                    return <Observable<GetDocumentationDetailOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetDocumentationDetailOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetDocumentationDetail(response: HttpResponse<Blob>): Observable<GetDocumentationDetailOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetDocumentationDetailOutput.fromJS(resultData200) : new GetDocumentationDetailOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetDocumentationDetailOutput>(<any>null);
     }
 }
 
@@ -5210,6 +6012,133 @@ export class SubscriptionServiceProxy {
             });
         }
         return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class SystemDocumentationAdminServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    createOrUpdateDocumentation(input: SystemDocumentationDto | null): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SystemDocumentationAdmin/CreateOrUpdateDocumentation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processCreateOrUpdateDocumentation(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processCreateOrUpdateDocumentation(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateOrUpdateDocumentation(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @isActive (optional) 
+     * @title (optional) 
+     * @sorting (optional) 
+     * @return Success
+     */
+    getDocumentationList(isActive: boolean | null, title: string | null, sorting: string | null, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfSystemDocumentationDto> {
+        let url_ = this.baseUrl + "/api/services/app/SystemDocumentationAdmin/GetDocumentationList?";
+        if (isActive !== undefined)
+            url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&"; 
+        if (title !== undefined)
+            url_ += "Title=" + encodeURIComponent("" + title) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount === undefined || maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
+        else
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount === undefined || skipCount === null)
+            throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
+        else
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetDocumentationList(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetDocumentationList(response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfSystemDocumentationDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfSystemDocumentationDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetDocumentationList(response: HttpResponse<Blob>): Observable<PagedResultDtoOfSystemDocumentationDto> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfSystemDocumentationDto.fromJS(resultData200) : new PagedResultDtoOfSystemDocumentationDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfSystemDocumentationDto>(<any>null);
     }
 }
 
@@ -8051,6 +8980,485 @@ export class WebLogServiceProxy {
     }
 }
 
+@Injectable()
+export class WeChatServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    notify(): Observable<void> {
+        let url_ = this.baseUrl + "/api/WeChat/Notify";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processNotify(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processNotify(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processNotify(response: HttpResponse<Blob>): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @url (optional) 
+     * @return Success
+     */
+    getConfig(url: string | null): Observable<WeChatConfigOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WeChat/GetConfig?";
+        if (url !== undefined)
+            url_ += "url=" + encodeURIComponent("" + url) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetConfig(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetConfig(response_);
+                } catch (e) {
+                    return <Observable<WeChatConfigOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<WeChatConfigOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetConfig(response: HttpResponse<Blob>): Observable<WeChatConfigOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeChatConfigOutput.fromJS(resultData200) : new WeChatConfigOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<WeChatConfigOutput>(<any>null);
+    }
+
+    /**
+     * @code (optional) 
+     * @return Success
+     */
+    authorize(code: string | null): Observable<WechatAuthrizationOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WeChat/Authorize?";
+        if (code !== undefined)
+            url_ += "code=" + encodeURIComponent("" + code) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processAuthorize(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processAuthorize(response_);
+                } catch (e) {
+                    return <Observable<WechatAuthrizationOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<WechatAuthrizationOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processAuthorize(response: HttpResponse<Blob>): Observable<WechatAuthrizationOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WechatAuthrizationOutput.fromJS(resultData200) : new WechatAuthrizationOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<WechatAuthrizationOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    decryptData(input: DecryptDataInput | null): Observable<DecryptDataOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WeChat/DecryptData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processDecryptData(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processDecryptData(response_);
+                } catch (e) {
+                    return <Observable<DecryptDataOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<DecryptDataOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDecryptData(response: HttpResponse<Blob>): Observable<DecryptDataOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? DecryptDataOutput.fromJS(resultData200) : new DecryptDataOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<DecryptDataOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class XinanServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    init(): Observable<InitOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Xinan/Init";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processInit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processInit(response_);
+                } catch (e) {
+                    return <Observable<InitOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<InitOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processInit(response: HttpResponse<Blob>): Observable<InitOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? InitOutput.fromJS(resultData200) : new InitOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<InitOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getModuleDetails(moduleType: number): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Xinan/GetModuleDetails?";
+        if (moduleType === undefined || moduleType === null)
+            throw new Error("The parameter 'moduleType' must be defined and cannot be null.");
+        else
+            url_ += "ModuleType=" + encodeURIComponent("" + moduleType) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetModuleDetails(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processGetModuleDetails(response_);
+                } catch (e) {
+                    return <Observable<string>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<string>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetModuleDetails(response: HttpResponse<Blob>): Observable<string> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<string>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    isFreeToJoinMember(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Xinan/IsFreeToJoinMember";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processIsFreeToJoinMember(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processIsFreeToJoinMember(response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<boolean>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processIsFreeToJoinMember(response: HttpResponse<Blob>): Observable<boolean> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<boolean>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    recharge(input: RechargeInput | null): Observable<RechargeOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Xinan/Recharge";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processRecharge(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processRecharge(response_);
+                } catch (e) {
+                    return <Observable<RechargeOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<RechargeOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processRecharge(response: HttpResponse<Blob>): Observable<RechargeOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RechargeOutput.fromJS(resultData200) : new RechargeOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<RechargeOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    initBuyWaterPurifier(): Observable<InitBuyWaterPurifierOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Xinan/InitBuyWaterPurifier";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processInitBuyWaterPurifier(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processInitBuyWaterPurifier(response_);
+                } catch (e) {
+                    return <Observable<InitBuyWaterPurifierOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<InitBuyWaterPurifierOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processInitBuyWaterPurifier(response: HttpResponse<Blob>): Observable<InitBuyWaterPurifierOutput> {
+        const status = response.status; 
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? InitBuyWaterPurifierOutput.fromJS(resultData200) : new InitBuyWaterPurifierOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<InitBuyWaterPurifierOutput>(<any>null);
+    }
+}
+
 export class LoginInput implements ILoginInput {
     phoneNumber: string;
     password: string;
@@ -8177,13 +9585,10 @@ export interface ILoginWithSCodeInput {
 }
 
 export class RegisterInput implements IRegisterInput {
-    districtId: number;
     phoneNumber: string;
     phoneNumberCode: string;
     password: string | undefined;
     wechatOpenId: string | undefined;
-    longitude: string | undefined;
-    latitude: string | undefined;
 
     constructor(data?: IRegisterInput) {
         if (data) {
@@ -8196,13 +9601,10 @@ export class RegisterInput implements IRegisterInput {
 
     init(data?: any) {
         if (data) {
-            this.districtId = data["districtId"];
             this.phoneNumber = data["phoneNumber"];
             this.phoneNumberCode = data["phoneNumberCode"];
             this.password = data["password"];
             this.wechatOpenId = data["wechatOpenId"];
-            this.longitude = data["longitude"];
-            this.latitude = data["latitude"];
         }
     }
 
@@ -8214,25 +9616,19 @@ export class RegisterInput implements IRegisterInput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["districtId"] = this.districtId;
         data["phoneNumber"] = this.phoneNumber;
         data["phoneNumberCode"] = this.phoneNumberCode;
         data["password"] = this.password;
         data["wechatOpenId"] = this.wechatOpenId;
-        data["longitude"] = this.longitude;
-        data["latitude"] = this.latitude;
         return data; 
     }
 }
 
 export interface IRegisterInput {
-    districtId: number;
     phoneNumber: string;
     phoneNumberCode: string;
     password: string | undefined;
     wechatOpenId: string | undefined;
-    longitude: string | undefined;
-    latitude: string | undefined;
 }
 
 export class RegisterOutput implements IRegisterOutput {
@@ -8296,6 +9692,7 @@ export interface IRegisterOutput {
 
 export class SendSmsCodeInput implements ISendSmsCodeInput {
     phoneNumber: string;
+    type: number;
 
     constructor(data?: ISendSmsCodeInput) {
         if (data) {
@@ -8309,6 +9706,7 @@ export class SendSmsCodeInput implements ISendSmsCodeInput {
     init(data?: any) {
         if (data) {
             this.phoneNumber = data["phoneNumber"];
+            this.type = data["type"];
         }
     }
 
@@ -8321,12 +9719,14 @@ export class SendSmsCodeInput implements ISendSmsCodeInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["phoneNumber"] = this.phoneNumber;
+        data["type"] = this.type;
         return data; 
     }
 }
 
 export interface ISendSmsCodeInput {
     phoneNumber: string;
+    type: number;
 }
 
 export class SendPasswordResetCodeInput implements ISendPasswordResetCodeInput {
@@ -8682,6 +10082,65 @@ export class SwitchToLinkedAccountOutput implements ISwitchToLinkedAccountOutput
 export interface ISwitchToLinkedAccountOutput {
     switchAccountToken: string | undefined;
     tenancyName: string | undefined;
+}
+
+export class AliyunOSSUploadOutput implements IAliyunOSSUploadOutput {
+    accessKeyId: string | undefined;
+    policy: string | undefined;
+    signature: string | undefined;
+    host: string | undefined;
+    expire: string | undefined;
+    readonly folderProfile: string | undefined;
+    readonly folderIDCard: string | undefined;
+
+    constructor(data?: IAliyunOSSUploadOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.accessKeyId = data["accessKeyId"];
+            this.policy = data["policy"];
+            this.signature = data["signature"];
+            this.host = data["host"];
+            this.expire = data["expire"];
+            (<any>this).folderProfile = data["folderProfile"];
+            (<any>this).folderIDCard = data["folderIDCard"];
+        }
+    }
+
+    static fromJS(data: any): AliyunOSSUploadOutput {
+        let result = new AliyunOSSUploadOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accessKeyId"] = this.accessKeyId;
+        data["policy"] = this.policy;
+        data["signature"] = this.signature;
+        data["host"] = this.host;
+        data["expire"] = this.expire;
+        data["folderProfile"] = this.folderProfile;
+        data["folderIDCard"] = this.folderIDCard;
+        return data; 
+    }
+}
+
+export interface IAliyunOSSUploadOutput {
+    accessKeyId: string | undefined;
+    policy: string | undefined;
+    signature: string | undefined;
+    host: string | undefined;
+    expire: string | undefined;
+    folderProfile: string | undefined;
+    folderIDCard: string | undefined;
 }
 
 export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLogListDto {
@@ -9610,6 +11069,100 @@ export class StringOutput implements IStringOutput {
 
 export interface IStringOutput {
     output: string | undefined;
+}
+
+export class ListResultDtoOfDistrictOutput implements IListResultDtoOfDistrictOutput {
+    items: DistrictOutput[] | undefined;
+
+    constructor(data?: IListResultDtoOfDistrictOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(DistrictOutput.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfDistrictOutput {
+        let result = new ListResultDtoOfDistrictOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfDistrictOutput {
+    items: DistrictOutput[] | undefined;
+}
+
+export class DistrictOutput implements IDistrictOutput {
+    id: string | undefined;
+    name: string | undefined;
+    sub: DistrictOutput[] | undefined;
+
+    constructor(data?: IDistrictOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.name = data["name"];
+            if (data["sub"] && data["sub"].constructor === Array) {
+                this.sub = [];
+                for (let item of data["sub"])
+                    this.sub.push(DistrictOutput.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DistrictOutput {
+        let result = new DistrictOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        if (this.sub && this.sub.constructor === Array) {
+            data["sub"] = [];
+            for (let item of this.sub)
+                data["sub"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDistrictOutput {
+    id: string | undefined;
+    name: string | undefined;
+    sub: DistrictOutput[] | undefined;
 }
 
 export class ListResultDtoOfEditionListDto implements IListResultDtoOfEditionListDto {
@@ -11991,6 +13544,578 @@ export interface IUpdateLanguageTextInput {
     value: string;
 }
 
+export class ListResultDtoOfMyAddressDto implements IListResultDtoOfMyAddressDto {
+    items: MyAddressDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfMyAddressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(MyAddressDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfMyAddressDto {
+        let result = new ListResultDtoOfMyAddressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfMyAddressDto {
+    items: MyAddressDto[] | undefined;
+}
+
+export class MyAddressDto implements IMyAddressDto {
+    id: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    districtId: number | undefined;
+    districtName: string | undefined;
+    address: string | undefined;
+    isDefault: boolean | undefined;
+    tag: string | undefined;
+
+    constructor(data?: IMyAddressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.shipTo = data["shipTo"];
+            this.phoneNumber = data["phoneNumber"];
+            this.districtId = data["districtId"];
+            this.districtName = data["districtName"];
+            this.address = data["address"];
+            this.isDefault = data["isDefault"];
+            this.tag = data["tag"];
+        }
+    }
+
+    static fromJS(data: any): MyAddressDto {
+        let result = new MyAddressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["shipTo"] = this.shipTo;
+        data["phoneNumber"] = this.phoneNumber;
+        data["districtId"] = this.districtId;
+        data["districtName"] = this.districtName;
+        data["address"] = this.address;
+        data["isDefault"] = this.isDefault;
+        data["tag"] = this.tag;
+        return data; 
+    }
+}
+
+export interface IMyAddressDto {
+    id: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    districtId: number | undefined;
+    districtName: string | undefined;
+    address: string | undefined;
+    isDefault: boolean | undefined;
+    tag: string | undefined;
+}
+
+export class GetMyAddressForEditOutput implements IGetMyAddressForEditOutput {
+    id: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    districtId: number | undefined;
+    districtName: string | undefined;
+    address: string | undefined;
+    isDefault: boolean | undefined;
+    tag: string | undefined;
+    addressTag: SystemCodeDto[] | undefined;
+
+    constructor(data?: IGetMyAddressForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.shipTo = data["shipTo"];
+            this.phoneNumber = data["phoneNumber"];
+            this.districtId = data["districtId"];
+            this.districtName = data["districtName"];
+            this.address = data["address"];
+            this.isDefault = data["isDefault"];
+            this.tag = data["tag"];
+            if (data["addressTag"] && data["addressTag"].constructor === Array) {
+                this.addressTag = [];
+                for (let item of data["addressTag"])
+                    this.addressTag.push(SystemCodeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetMyAddressForEditOutput {
+        let result = new GetMyAddressForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["shipTo"] = this.shipTo;
+        data["phoneNumber"] = this.phoneNumber;
+        data["districtId"] = this.districtId;
+        data["districtName"] = this.districtName;
+        data["address"] = this.address;
+        data["isDefault"] = this.isDefault;
+        data["tag"] = this.tag;
+        if (this.addressTag && this.addressTag.constructor === Array) {
+            data["addressTag"] = [];
+            for (let item of this.addressTag)
+                data["addressTag"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetMyAddressForEditOutput {
+    id: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    districtId: number | undefined;
+    districtName: string | undefined;
+    address: string | undefined;
+    isDefault: boolean | undefined;
+    tag: string | undefined;
+    addressTag: SystemCodeDto[] | undefined;
+}
+
+export class SystemCodeDto implements ISystemCodeDto {
+    id: number | undefined;
+    key: string | undefined;
+    value: string | undefined;
+    displaySequence: number | undefined;
+
+    constructor(data?: ISystemCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.key = data["key"];
+            this.value = data["value"];
+            this.displaySequence = data["displaySequence"];
+        }
+    }
+
+    static fromJS(data: any): SystemCodeDto {
+        let result = new SystemCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["key"] = this.key;
+        data["value"] = this.value;
+        data["displaySequence"] = this.displaySequence;
+        return data; 
+    }
+}
+
+export interface ISystemCodeDto {
+    id: number | undefined;
+    key: string | undefined;
+    value: string | undefined;
+    displaySequence: number | undefined;
+}
+
+export class GetMyProfileOutput implements IGetMyProfileOutput {
+    profileLogoUrl: string | undefined;
+    nickName: string | undefined;
+    numberOfMember: number | undefined;
+    members: MemberInfo[] | undefined;
+
+    constructor(data?: IGetMyProfileOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.profileLogoUrl = data["profileLogoUrl"];
+            this.nickName = data["nickName"];
+            this.numberOfMember = data["numberOfMember"];
+            if (data["members"] && data["members"].constructor === Array) {
+                this.members = [];
+                for (let item of data["members"])
+                    this.members.push(MemberInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetMyProfileOutput {
+        let result = new GetMyProfileOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["profileLogoUrl"] = this.profileLogoUrl;
+        data["nickName"] = this.nickName;
+        data["numberOfMember"] = this.numberOfMember;
+        if (this.members && this.members.constructor === Array) {
+            data["members"] = [];
+            for (let item of this.members)
+                data["members"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetMyProfileOutput {
+    profileLogoUrl: string | undefined;
+    nickName: string | undefined;
+    numberOfMember: number | undefined;
+    members: MemberInfo[] | undefined;
+}
+
+export class MemberInfo implements IMemberInfo {
+    name: string | undefined;
+    balance: number | undefined;
+    isObservationPeriod: boolean | undefined;
+
+    constructor(data?: IMemberInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.balance = data["balance"];
+            this.isObservationPeriod = data["isObservationPeriod"];
+        }
+    }
+
+    static fromJS(data: any): MemberInfo {
+        let result = new MemberInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["balance"] = this.balance;
+        data["isObservationPeriod"] = this.isObservationPeriod;
+        return data; 
+    }
+}
+
+export interface IMemberInfo {
+    name: string | undefined;
+    balance: number | undefined;
+    isObservationPeriod: boolean | undefined;
+}
+
+export class GetPublicAnnouncementOutput implements IGetPublicAnnouncementOutput {
+    imageUrl: string | undefined;
+    aidMembers: AidMemberInfo[] | undefined;
+    detailImageUrl: string | undefined;
+
+    constructor(data?: IGetPublicAnnouncementOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.imageUrl = data["imageUrl"];
+            if (data["aidMembers"] && data["aidMembers"].constructor === Array) {
+                this.aidMembers = [];
+                for (let item of data["aidMembers"])
+                    this.aidMembers.push(AidMemberInfo.fromJS(item));
+            }
+            this.detailImageUrl = data["detailImageUrl"];
+        }
+    }
+
+    static fromJS(data: any): GetPublicAnnouncementOutput {
+        let result = new GetPublicAnnouncementOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["imageUrl"] = this.imageUrl;
+        if (this.aidMembers && this.aidMembers.constructor === Array) {
+            data["aidMembers"] = [];
+            for (let item of this.aidMembers)
+                data["aidMembers"].push(item.toJSON());
+        }
+        data["detailImageUrl"] = this.detailImageUrl;
+        return data; 
+    }
+}
+
+export interface IGetPublicAnnouncementOutput {
+    imageUrl: string | undefined;
+    aidMembers: AidMemberInfo[] | undefined;
+    detailImageUrl: string | undefined;
+}
+
+export class AidMemberInfo implements IAidMemberInfo {
+    name: string | undefined;
+    shareAmount: number | undefined;
+    aidAmount: number | undefined;
+    aidDate: string | undefined;
+
+    constructor(data?: IAidMemberInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.shareAmount = data["shareAmount"];
+            this.aidAmount = data["aidAmount"];
+            this.aidDate = data["aidDate"];
+        }
+    }
+
+    static fromJS(data: any): AidMemberInfo {
+        let result = new AidMemberInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["shareAmount"] = this.shareAmount;
+        data["aidAmount"] = this.aidAmount;
+        data["aidDate"] = this.aidDate;
+        return data; 
+    }
+}
+
+export interface IAidMemberInfo {
+    name: string | undefined;
+    shareAmount: number | undefined;
+    aidAmount: number | undefined;
+    aidDate: string | undefined;
+}
+
+export class GetApplyMutualAidOutput implements IGetApplyMutualAidOutput {
+    imageUrl: string | undefined;
+
+    constructor(data?: IGetApplyMutualAidOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.imageUrl = data["imageUrl"];
+        }
+    }
+
+    static fromJS(data: any): GetApplyMutualAidOutput {
+        let result = new GetApplyMutualAidOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["imageUrl"] = this.imageUrl;
+        return data; 
+    }
+}
+
+export interface IGetApplyMutualAidOutput {
+    imageUrl: string | undefined;
+}
+
+export class GetInviteShareOutput implements IGetInviteShareOutput {
+    imageUrl: string | undefined;
+
+    constructor(data?: IGetInviteShareOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.imageUrl = data["imageUrl"];
+        }
+    }
+
+    static fromJS(data: any): GetInviteShareOutput {
+        let result = new GetInviteShareOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["imageUrl"] = this.imageUrl;
+        return data; 
+    }
+}
+
+export interface IGetInviteShareOutput {
+    imageUrl: string | undefined;
+}
+
+export class GetAboutOutput implements IGetAboutOutput {
+    title: string | undefined;
+    content: string | undefined;
+    imageUrl: string | undefined;
+
+    constructor(data?: IGetAboutOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.content = data["content"];
+            this.imageUrl = data["imageUrl"];
+        }
+    }
+
+    static fromJS(data: any): GetAboutOutput {
+        let result = new GetAboutOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["imageUrl"] = this.imageUrl;
+        return data; 
+    }
+}
+
+export interface IGetAboutOutput {
+    title: string | undefined;
+    content: string | undefined;
+    imageUrl: string | undefined;
+}
+
+export class GetDocumentationDetailOutput implements IGetDocumentationDetailOutput {
+    content: string | undefined;
+
+    constructor(data?: IGetDocumentationDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.content = data["content"];
+        }
+    }
+
+    static fromJS(data: any): GetDocumentationDetailOutput {
+        let result = new GetDocumentationDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["content"] = this.content;
+        return data; 
+    }
+}
+
+export interface IGetDocumentationDetailOutput {
+    content: string | undefined;
+}
+
 export class GetNotificationsOutput implements IGetNotificationsOutput {
     unreadCount: number | undefined;
     totalCount: number | undefined;
@@ -14291,6 +16416,112 @@ export interface IUpdateUserSignInTokenOutput {
     signInToken: string | undefined;
     encodedUserId: string | undefined;
     encodedTenantId: string | undefined;
+}
+
+export class SystemDocumentationDto implements ISystemDocumentationDto {
+    id: number | undefined;
+    title: string | undefined;
+    content: string | undefined;
+    isActive: boolean | undefined;
+    isCommonIssue: boolean | undefined;
+    sequence: number | undefined;
+    createdTime: moment.Moment | undefined;
+
+    constructor(data?: ISystemDocumentationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.title = data["title"];
+            this.content = data["content"];
+            this.isActive = data["isActive"];
+            this.isCommonIssue = data["isCommonIssue"];
+            this.sequence = data["sequence"];
+            this.createdTime = data["createdTime"] ? moment(data["createdTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SystemDocumentationDto {
+        let result = new SystemDocumentationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["isActive"] = this.isActive;
+        data["isCommonIssue"] = this.isCommonIssue;
+        data["sequence"] = this.sequence;
+        data["createdTime"] = this.createdTime ? this.createdTime.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface ISystemDocumentationDto {
+    id: number | undefined;
+    title: string | undefined;
+    content: string | undefined;
+    isActive: boolean | undefined;
+    isCommonIssue: boolean | undefined;
+    sequence: number | undefined;
+    createdTime: moment.Moment | undefined;
+}
+
+export class PagedResultDtoOfSystemDocumentationDto implements IPagedResultDtoOfSystemDocumentationDto {
+    totalCount: number | undefined;
+    items: SystemDocumentationDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfSystemDocumentationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SystemDocumentationDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfSystemDocumentationDto {
+        let result = new PagedResultDtoOfSystemDocumentationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfSystemDocumentationDto {
+    totalCount: number | undefined;
+    items: SystemDocumentationDto[] | undefined;
 }
 
 export class PagedResultDtoOfTenantListDto implements IPagedResultDtoOfTenantListDto {
@@ -16620,8 +18851,8 @@ export interface IGetUserForEditOutput {
 
 export class UserEditDto implements IUserEditDto {
     id: number | undefined;
-    name: string;
-    surname: string;
+    name: string | undefined;
+    surname: string | undefined;
     userName: string;
     emailAddress: string;
     phoneNumber: string | undefined;
@@ -16681,8 +18912,8 @@ export class UserEditDto implements IUserEditDto {
 
 export interface IUserEditDto {
     id: number | undefined;
-    name: string;
-    surname: string;
+    name: string | undefined;
+    surname: string | undefined;
     userName: string;
     emailAddress: string;
     phoneNumber: string | undefined;
@@ -16993,16 +19224,12 @@ export interface IPagedResultDtoOfGetUsersOutput {
 
 export class GetUsersOutput implements IGetUsersOutput {
     id: number | undefined;
-    surname: string | undefined;
     nickName: string | undefined;
-    realName: string | undefined;
     profileImageUrl: string | undefined;
     phoneNumber: string | undefined;
     userGrade: string | undefined;
-    distric: string | undefined;
     isVerifiedIdentity: boolean | undefined;
     creationTime: moment.Moment | undefined;
-    birth: moment.Moment | undefined;
 
     constructor(data?: IGetUsersOutput) {
         if (data) {
@@ -17016,16 +19243,12 @@ export class GetUsersOutput implements IGetUsersOutput {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.surname = data["surname"];
             this.nickName = data["nickName"];
-            this.realName = data["realName"];
             this.profileImageUrl = data["profileImageUrl"];
             this.phoneNumber = data["phoneNumber"];
             this.userGrade = data["userGrade"];
-            this.distric = data["distric"];
             this.isVerifiedIdentity = data["isVerifiedIdentity"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.birth = data["birth"] ? moment(data["birth"].toString()) : <any>undefined;
         }
     }
 
@@ -17038,32 +19261,24 @@ export class GetUsersOutput implements IGetUsersOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["surname"] = this.surname;
         data["nickName"] = this.nickName;
-        data["realName"] = this.realName;
         data["profileImageUrl"] = this.profileImageUrl;
         data["phoneNumber"] = this.phoneNumber;
         data["userGrade"] = this.userGrade;
-        data["distric"] = this.distric;
         data["isVerifiedIdentity"] = this.isVerifiedIdentity;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["birth"] = this.birth ? this.birth.toISOString() : <any>undefined;
         return data; 
     }
 }
 
 export interface IGetUsersOutput {
     id: number | undefined;
-    surname: string | undefined;
     nickName: string | undefined;
-    realName: string | undefined;
     profileImageUrl: string | undefined;
     phoneNumber: string | undefined;
     userGrade: string | undefined;
-    distric: string | undefined;
     isVerifiedIdentity: boolean | undefined;
     creationTime: moment.Moment | undefined;
-    birth: moment.Moment | undefined;
 }
 
 export class LinkToUserInput implements ILinkToUserInput {
@@ -17432,6 +19647,764 @@ export class GetLatestWebLogsOutput implements IGetLatestWebLogsOutput {
 
 export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
+}
+
+export class WeChatConfigOutput implements IWeChatConfigOutput {
+    appId: string | undefined;
+    timestamp: string | undefined;
+    signature: string | undefined;
+    nonceStr: string | undefined;
+
+    constructor(data?: IWeChatConfigOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.appId = data["appId"];
+            this.timestamp = data["timestamp"];
+            this.signature = data["signature"];
+            this.nonceStr = data["nonceStr"];
+        }
+    }
+
+    static fromJS(data: any): WeChatConfigOutput {
+        let result = new WeChatConfigOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["appId"] = this.appId;
+        data["timestamp"] = this.timestamp;
+        data["signature"] = this.signature;
+        data["nonceStr"] = this.nonceStr;
+        return data; 
+    }
+}
+
+export interface IWeChatConfigOutput {
+    appId: string | undefined;
+    timestamp: string | undefined;
+    signature: string | undefined;
+    nonceStr: string | undefined;
+}
+
+export class WechatAuthrizationOutput implements IWechatAuthrizationOutput {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number | undefined;
+    shouldResetPassword: boolean | undefined;
+    passwordResetCode: string | undefined;
+    userId: number | undefined;
+    requiresTwoFactorVerification: boolean | undefined;
+    twoFactorAuthProviders: string[] | undefined;
+    twoFactorRememberClientToken: string | undefined;
+    returnUrl: string | undefined;
+    wechatOpenId: string | undefined;
+
+    constructor(data?: IWechatAuthrizationOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.accessToken = data["accessToken"];
+            this.encryptedAccessToken = data["encryptedAccessToken"];
+            this.expireInSeconds = data["expireInSeconds"];
+            this.shouldResetPassword = data["shouldResetPassword"];
+            this.passwordResetCode = data["passwordResetCode"];
+            this.userId = data["userId"];
+            this.requiresTwoFactorVerification = data["requiresTwoFactorVerification"];
+            if (data["twoFactorAuthProviders"] && data["twoFactorAuthProviders"].constructor === Array) {
+                this.twoFactorAuthProviders = [];
+                for (let item of data["twoFactorAuthProviders"])
+                    this.twoFactorAuthProviders.push(item);
+            }
+            this.twoFactorRememberClientToken = data["twoFactorRememberClientToken"];
+            this.returnUrl = data["returnUrl"];
+            this.wechatOpenId = data["wechatOpenId"];
+        }
+    }
+
+    static fromJS(data: any): WechatAuthrizationOutput {
+        let result = new WechatAuthrizationOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accessToken"] = this.accessToken;
+        data["encryptedAccessToken"] = this.encryptedAccessToken;
+        data["expireInSeconds"] = this.expireInSeconds;
+        data["shouldResetPassword"] = this.shouldResetPassword;
+        data["passwordResetCode"] = this.passwordResetCode;
+        data["userId"] = this.userId;
+        data["requiresTwoFactorVerification"] = this.requiresTwoFactorVerification;
+        if (this.twoFactorAuthProviders && this.twoFactorAuthProviders.constructor === Array) {
+            data["twoFactorAuthProviders"] = [];
+            for (let item of this.twoFactorAuthProviders)
+                data["twoFactorAuthProviders"].push(item);
+        }
+        data["twoFactorRememberClientToken"] = this.twoFactorRememberClientToken;
+        data["returnUrl"] = this.returnUrl;
+        data["wechatOpenId"] = this.wechatOpenId;
+        return data; 
+    }
+}
+
+export interface IWechatAuthrizationOutput {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number | undefined;
+    shouldResetPassword: boolean | undefined;
+    passwordResetCode: string | undefined;
+    userId: number | undefined;
+    requiresTwoFactorVerification: boolean | undefined;
+    twoFactorAuthProviders: string[] | undefined;
+    twoFactorRememberClientToken: string | undefined;
+    returnUrl: string | undefined;
+    wechatOpenId: string | undefined;
+}
+
+export class DecryptDataInput implements IDecryptDataInput {
+    code: string | undefined;
+    encryptedData: string | undefined;
+    iv: string | undefined;
+
+    constructor(data?: IDecryptDataInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.encryptedData = data["encryptedData"];
+            this.iv = data["iv"];
+        }
+    }
+
+    static fromJS(data: any): DecryptDataInput {
+        let result = new DecryptDataInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["encryptedData"] = this.encryptedData;
+        data["iv"] = this.iv;
+        return data; 
+    }
+}
+
+export interface IDecryptDataInput {
+    code: string | undefined;
+    encryptedData: string | undefined;
+    iv: string | undefined;
+}
+
+export class DecryptDataOutput implements IDecryptDataOutput {
+    data: DecryptData | undefined;
+    openId: string | undefined;
+
+    constructor(data?: IDecryptDataOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.data = data["data"] ? DecryptData.fromJS(data["data"]) : <any>undefined;
+            this.openId = data["openId"];
+        }
+    }
+
+    static fromJS(data: any): DecryptDataOutput {
+        let result = new DecryptDataOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["openId"] = this.openId;
+        return data; 
+    }
+}
+
+export interface IDecryptDataOutput {
+    data: DecryptData | undefined;
+    openId: string | undefined;
+}
+
+export class DecryptData implements IDecryptData {
+    phoneNumber: string | undefined;
+    purePhoneNumber: string | undefined;
+    countryCode: string | undefined;
+    watermark: Watermark | undefined;
+
+    constructor(data?: IDecryptData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.phoneNumber = data["phoneNumber"];
+            this.purePhoneNumber = data["purePhoneNumber"];
+            this.countryCode = data["countryCode"];
+            this.watermark = data["watermark"] ? Watermark.fromJS(data["watermark"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DecryptData {
+        let result = new DecryptData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["phoneNumber"] = this.phoneNumber;
+        data["purePhoneNumber"] = this.purePhoneNumber;
+        data["countryCode"] = this.countryCode;
+        data["watermark"] = this.watermark ? this.watermark.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IDecryptData {
+    phoneNumber: string | undefined;
+    purePhoneNumber: string | undefined;
+    countryCode: string | undefined;
+    watermark: Watermark | undefined;
+}
+
+export class Watermark implements IWatermark {
+    appid: string | undefined;
+    timestamp: number | undefined;
+
+    constructor(data?: IWatermark) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.appid = data["appid"];
+            this.timestamp = data["timestamp"];
+        }
+    }
+
+    static fromJS(data: any): Watermark {
+        let result = new Watermark();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["appid"] = this.appid;
+        data["timestamp"] = this.timestamp;
+        return data; 
+    }
+}
+
+export interface IWatermark {
+    appid: string | undefined;
+    timestamp: number | undefined;
+}
+
+export class InitOutput implements IInitOutput {
+    homeSlides: SlideItem[] | undefined;
+    showNumberOfMembers: number | undefined;
+    showTotalFund: number | undefined;
+    showNumberOfRescued: number | undefined;
+    items: ModuleItem[] | undefined;
+
+    constructor(data?: IInitOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["homeSlides"] && data["homeSlides"].constructor === Array) {
+                this.homeSlides = [];
+                for (let item of data["homeSlides"])
+                    this.homeSlides.push(SlideItem.fromJS(item));
+            }
+            this.showNumberOfMembers = data["showNumberOfMembers"];
+            this.showTotalFund = data["showTotalFund"];
+            this.showNumberOfRescued = data["showNumberOfRescued"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ModuleItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): InitOutput {
+        let result = new InitOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.homeSlides && this.homeSlides.constructor === Array) {
+            data["homeSlides"] = [];
+            for (let item of this.homeSlides)
+                data["homeSlides"].push(item.toJSON());
+        }
+        data["showNumberOfMembers"] = this.showNumberOfMembers;
+        data["showTotalFund"] = this.showTotalFund;
+        data["showNumberOfRescued"] = this.showNumberOfRescued;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IInitOutput {
+    homeSlides: SlideItem[] | undefined;
+    showNumberOfMembers: number | undefined;
+    showTotalFund: number | undefined;
+    showNumberOfRescued: number | undefined;
+    items: ModuleItem[] | undefined;
+}
+
+export class SlideItem implements ISlideItem {
+    picture: string | undefined;
+    redirectUrl: string | undefined;
+    name: string | undefined;
+    title: string | undefined;
+    usedCommonHeader: boolean | undefined;
+    needLogin: boolean | undefined;
+    pageParam: string | undefined;
+
+    constructor(data?: ISlideItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.picture = data["picture"];
+            this.redirectUrl = data["redirectUrl"];
+            this.name = data["name"];
+            this.title = data["title"];
+            this.usedCommonHeader = data["usedCommonHeader"];
+            this.needLogin = data["needLogin"];
+            this.pageParam = data["pageParam"];
+        }
+    }
+
+    static fromJS(data: any): SlideItem {
+        let result = new SlideItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["picture"] = this.picture;
+        data["redirectUrl"] = this.redirectUrl;
+        data["name"] = this.name;
+        data["title"] = this.title;
+        data["usedCommonHeader"] = this.usedCommonHeader;
+        data["needLogin"] = this.needLogin;
+        data["pageParam"] = this.pageParam;
+        return data; 
+    }
+}
+
+export interface ISlideItem {
+    picture: string | undefined;
+    redirectUrl: string | undefined;
+    name: string | undefined;
+    title: string | undefined;
+    usedCommonHeader: boolean | undefined;
+    needLogin: boolean | undefined;
+    pageParam: string | undefined;
+}
+
+export class ModuleItem implements IModuleItem {
+    typeId: number | undefined;
+    linkUrl: string | undefined;
+    logoUrl: string | undefined;
+    title: string | undefined;
+    content: string | undefined;
+    highLightContent: string | undefined;
+    buttonString: string | undefined;
+
+    constructor(data?: IModuleItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.typeId = data["typeId"];
+            this.linkUrl = data["linkUrl"];
+            this.logoUrl = data["logoUrl"];
+            this.title = data["title"];
+            this.content = data["content"];
+            this.highLightContent = data["highLightContent"];
+            this.buttonString = data["buttonString"];
+        }
+    }
+
+    static fromJS(data: any): ModuleItem {
+        let result = new ModuleItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["typeId"] = this.typeId;
+        data["linkUrl"] = this.linkUrl;
+        data["logoUrl"] = this.logoUrl;
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["highLightContent"] = this.highLightContent;
+        data["buttonString"] = this.buttonString;
+        return data; 
+    }
+}
+
+export interface IModuleItem {
+    typeId: number | undefined;
+    linkUrl: string | undefined;
+    logoUrl: string | undefined;
+    title: string | undefined;
+    content: string | undefined;
+    highLightContent: string | undefined;
+    buttonString: string | undefined;
+}
+
+export class RechargeInput implements IRechargeInput {
+    orderType: number;
+    payMethod: number;
+    tradeSource: string | undefined;
+    weChatOpenId: string | undefined;
+    name: string | undefined;
+    identityNo: string | undefined;
+    userShippingAddressId: number | undefined;
+    orderAmount: number;
+
+    constructor(data?: IRechargeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.orderType = data["orderType"];
+            this.payMethod = data["payMethod"];
+            this.tradeSource = data["tradeSource"];
+            this.weChatOpenId = data["weChatOpenId"];
+            this.name = data["name"];
+            this.identityNo = data["identityNo"];
+            this.userShippingAddressId = data["userShippingAddressId"];
+            this.orderAmount = data["orderAmount"];
+        }
+    }
+
+    static fromJS(data: any): RechargeInput {
+        let result = new RechargeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["orderType"] = this.orderType;
+        data["payMethod"] = this.payMethod;
+        data["tradeSource"] = this.tradeSource;
+        data["weChatOpenId"] = this.weChatOpenId;
+        data["name"] = this.name;
+        data["identityNo"] = this.identityNo;
+        data["userShippingAddressId"] = this.userShippingAddressId;
+        data["orderAmount"] = this.orderAmount;
+        return data; 
+    }
+}
+
+export interface IRechargeInput {
+    orderType: number;
+    payMethod: number;
+    tradeSource: string | undefined;
+    weChatOpenId: string | undefined;
+    name: string | undefined;
+    identityNo: string | undefined;
+    userShippingAddressId: number | undefined;
+    orderAmount: number;
+}
+
+export class RechargeOutput implements IRechargeOutput {
+    payMethod: number | undefined;
+    weChat: WeChatPay | undefined;
+    alipay: string | undefined;
+
+    constructor(data?: IRechargeOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.payMethod = data["payMethod"];
+            this.weChat = data["weChat"] ? WeChatPay.fromJS(data["weChat"]) : <any>undefined;
+            this.alipay = data["alipay"];
+        }
+    }
+
+    static fromJS(data: any): RechargeOutput {
+        let result = new RechargeOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["payMethod"] = this.payMethod;
+        data["weChat"] = this.weChat ? this.weChat.toJSON() : <any>undefined;
+        data["alipay"] = this.alipay;
+        return data; 
+    }
+}
+
+export interface IRechargeOutput {
+    payMethod: number | undefined;
+    weChat: WeChatPay | undefined;
+    alipay: string | undefined;
+}
+
+export class WeChatPay implements IWeChatPay {
+    package: string | undefined;
+    apiKey: string | undefined;
+    orderId: string | undefined;
+    mchId: string | undefined;
+    nonceStr: string | undefined;
+    timeStamp: string | undefined;
+    sign: string | undefined;
+
+    constructor(data?: IWeChatPay) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.package = data["package"];
+            this.apiKey = data["apiKey"];
+            this.orderId = data["orderId"];
+            this.mchId = data["mchId"];
+            this.nonceStr = data["nonceStr"];
+            this.timeStamp = data["timeStamp"];
+            this.sign = data["sign"];
+        }
+    }
+
+    static fromJS(data: any): WeChatPay {
+        let result = new WeChatPay();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["package"] = this.package;
+        data["apiKey"] = this.apiKey;
+        data["orderId"] = this.orderId;
+        data["mchId"] = this.mchId;
+        data["nonceStr"] = this.nonceStr;
+        data["timeStamp"] = this.timeStamp;
+        data["sign"] = this.sign;
+        return data; 
+    }
+}
+
+export interface IWeChatPay {
+    package: string | undefined;
+    apiKey: string | undefined;
+    orderId: string | undefined;
+    mchId: string | undefined;
+    nonceStr: string | undefined;
+    timeStamp: string | undefined;
+    sign: string | undefined;
+}
+
+export class InitBuyWaterPurifierOutput implements IInitBuyWaterPurifierOutput {
+    logoUrl: string | undefined;
+    title: string | undefined;
+    items: DetailItem[] | undefined;
+    price: number | undefined;
+    userShippingAddressId: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    address: string | undefined;
+
+    constructor(data?: IInitBuyWaterPurifierOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.logoUrl = data["logoUrl"];
+            this.title = data["title"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(DetailItem.fromJS(item));
+            }
+            this.price = data["price"];
+            this.userShippingAddressId = data["userShippingAddressId"];
+            this.shipTo = data["shipTo"];
+            this.phoneNumber = data["phoneNumber"];
+            this.address = data["address"];
+        }
+    }
+
+    static fromJS(data: any): InitBuyWaterPurifierOutput {
+        let result = new InitBuyWaterPurifierOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["logoUrl"] = this.logoUrl;
+        data["title"] = this.title;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["price"] = this.price;
+        data["userShippingAddressId"] = this.userShippingAddressId;
+        data["shipTo"] = this.shipTo;
+        data["phoneNumber"] = this.phoneNumber;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IInitBuyWaterPurifierOutput {
+    logoUrl: string | undefined;
+    title: string | undefined;
+    items: DetailItem[] | undefined;
+    price: number | undefined;
+    userShippingAddressId: number | undefined;
+    shipTo: string | undefined;
+    phoneNumber: string | undefined;
+    address: string | undefined;
+}
+
+export class DetailItem implements IDetailItem {
+    title: string | undefined;
+    content: string | undefined;
+
+    constructor(data?: IDetailItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.content = data["content"];
+        }
+    }
+
+    static fromJS(data: any): DetailItem {
+        let result = new DetailItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["content"] = this.content;
+        return data; 
+    }
+}
+
+export interface IDetailItem {
+    title: string | undefined;
+    content: string | undefined;
 }
 
 export enum IncomeStatisticsDateInterval {
