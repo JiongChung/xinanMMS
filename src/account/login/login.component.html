@@ -23,9 +23,9 @@
                     <span></span>
                 </label>
             </div>
-            <div class="col m--align-right">
+            <!-- <div class="col m--align-right">
                 <a routerLink="/account/forgot-password" id="forget-password" class="m-link forget-password">{{l("ForgotPassword")}}</a>
-            </div>
+            </div> -->
         </div>
 
         <div class="m-login__form-action">
@@ -35,16 +35,16 @@
 
     <div class="login-options" *ngIf="(multiTenancySideIsTeanant || !isMultiTenancyEnabled) && loginService.externalLoginProviders.length > 0">
         <h4>{{l("LoginWith")}}</h4>
-        <ul class="social-icons">
+        <!-- <ul class="social-icons">
             <li *ngFor="let provider of loginService.externalLoginProviders">
                 <a class="social-login-icon social-icon-color {{provider.icon}}"
                    (click)="externalLogin(provider)"
                    title="{{provider.name}}"></a>
             </li>
-        </ul>
+        </ul> -->
     </div>
 
-    <div class="m-stack__item m-stack__item--center">
+    <!-- <div class="m-stack__item m-stack__item--center">
         <div class="m-login__account">
             <span *ngIf="isSelfRegistrationAllowed">
                 <a routerLink="/account/register" id="register-btn" class="m-link m-link--focus m-login__account-link">{{l("CreateAnAccount")}}</a>
@@ -56,5 +56,5 @@
             </span>
             <a routerLink="/account/email-activation" id="email-activation-btn" class="m-link m-link--focus m-login__account-link">{{l("EmailActivation")}}</a>
         </div>
-    </div>
+    </div> -->
 </div>

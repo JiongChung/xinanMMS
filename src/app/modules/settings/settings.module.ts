@@ -12,7 +12,11 @@ import { PaginatorModule } from 'primeng/primeng';
 import { EditorModule } from 'primeng/primeng';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { FileUploadModule } from 'ng2-file-upload';
+import { SystemdocumentationComponent } from './systemdocumentation/systemdocumentation.component';
+import { SystemdocumentationSearchComponent } from './systemdocumentation/systemdocumentation-search/systemdocumentation-search.component';
+import { CreateOrEditSystemDocumentationModalComponent } from './systemdocumentation/create-or-edit-system-documentation-modal/create-or-edit-system-documentation-modal.component';
 
+import { QuillModule } from 'ngx-quill';
 @NgModule({
   imports: [
     SettingsRoutingModule,
@@ -28,11 +32,15 @@ import { FileUploadModule } from 'ng2-file-upload';
     UtilsModule,
     EditorModule,
     FileUploadModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule
   ],
   declarations: [
     HomeComponent, 
-    BasesettingsComponent
+    BasesettingsComponent, 
+    SystemdocumentationComponent, 
+    SystemdocumentationSearchComponent, 
+    CreateOrEditSystemDocumentationModalComponent
   ]
 })
 export class SettingsModule { }

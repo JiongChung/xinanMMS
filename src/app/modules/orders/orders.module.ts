@@ -18,6 +18,13 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { QuillModule } from 'ngx-quill';
 
+import { ChineseInterceptPipe } from '../../pipe/chinese-intercept.pipe';
+import { DataChineseInterceptPipe } from '../../pipe/data-chinese-intercept.pipe';
+import { NumberInterceptPipe } from '../../pipe/number-intercept.pipe';
+import { PayrecordComponent } from './payrecord/payrecord.component';
+import { PayrecordSearchComponent } from './payrecord/payrecord-search/payrecord-search.component';
+
+
 @NgModule({
   imports: [
     OrdersRoutingModule,
@@ -40,7 +47,12 @@ import { QuillModule } from 'ngx-quill';
   declarations: [
     HomeComponent,
     OrderlistComponent, 
-    OrderNumberInterceptPipe
+    OrderNumberInterceptPipe,
+    ChineseInterceptPipe,
+    DataChineseInterceptPipe,
+    NumberInterceptPipe,
+    PayrecordComponent,
+    PayrecordSearchComponent
   ]
 })
 export class OrdersModule { }

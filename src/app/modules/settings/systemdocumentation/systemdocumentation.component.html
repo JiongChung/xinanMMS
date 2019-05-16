@@ -1,0 +1,79 @@
+<div [@routerTransition]>
+    <div class="m-subheader new-subheader">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto col-xs-6">
+            <h3 class="m-subheader__title">
+                <span>系统文件</span>
+            </h3>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button (click)="CreateOrEidtSystemDocumentationModal.show()" class="btn btn-primary blue"><i class="fa fa-plus"></i>添加系统文件</button>
+        </div>
+    </div>
+</div>
+<app-systemdocumentation-search (ListenSearch)="getSearchData($event)"></app-systemdocumentation-search>
+<div class="row">
+    <div class="col-md-12">
+        <div class="primeng-datatable-container" [busyIf]="primengDatatableHelper.isLoading">
+            <div class="new-table-scrollable">
+                <div class="totalCount"><span>共{{primengDatatableHelper.totalRecordsCount}}条记录</span></div>
+                <p-dataTable #dataTable
+                        (onLazyLoad)="getDocumentationList($event)"
+                        [value]="primengDatatableHelper.records"
+                        rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                        [paginator]="false"
+                        [lazy]="true"
+                        emptyMessage="{{l('NoData')}}"
+                        scrollable="true"
+                        ScrollWidth="100%"
+                        responsive="primengDatatableHelper.isResponsive">
+                    <p-column field="serialnumber" header="#" [style]="{'width':'60px','text-align':'center'}">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            {{record.serialnumber}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="title" header="标题" [style]="{'width':'50%'}">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            {{record.title}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="isActive" header="是否可用">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            <span class="label label-sm label-danger" [hidden]="record.isActive">不可用</span>
+                            <span class="label label-sm label-success" [hidden]="!record.isActive">可用</span>
+                        </ng-template>
+                    </p-column>
+                    <p-column field="isCommonIssue" header="常见问题">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            <span class="label label-sm label-danger" [hidden]="record.isCommonIssue">否</span>
+                            <span class="label label-sm label-success" [hidden]="!record.isCommonIssue">是</span>
+                        </ng-template>
+                    </p-column>
+                    <p-column field="name" header="创建时间">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            {{record.createdTime | date:"yyyy-MM-dd HH:MM:SS"}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field="options" header="操作" [style]="{'width':'80px','text-align':'center'}">
+                        <ng-template let-record="rowData" pTemplate="body">
+                            <button type="button" class="btn default" (click)="CreateOrEidtSystemDocumentationModal.show(record.id)">编辑</button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+                <div class="primeng-paging-container" style="margin-top: 10px">
+                    <p-paginator rows="{{primengDatatableHelper.defaultRecordsCountPerPage}}"
+                            #paginator
+                            (onPageChange)="getDocumentationList($event)"
+                            [totalRecords]="primengDatatableHelper.totalRecordsCount"
+                            [rowsPerPageOptions]="primengDatatableHelper.predefinedRecordsCountPerPage">
+                    </p-paginator>
+                    <span class="total-records-count">
+                        {{l('TotalRecordsCount', primengDatatableHelper.totalRecordsCount)}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<CreateOrEidtSystemDocumentationModal [testList]="testList" (modalSave)="getDocumentationList($event)" #CreateOrEidtSystemDocumentationModal></CreateOrEidtSystemDocumentationModal>

@@ -40,6 +40,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.InstallServiceProxy,
         ApiServiceProxies.UiCustomizationSettingsServiceProxy,
         ApiServiceProxies.UserAdminServiceProxy,
+        ApiServiceProxies.SystemDocumentationAdminServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

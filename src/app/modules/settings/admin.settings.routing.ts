@@ -2,14 +2,15 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { BasesettingsComponent } from './basesettings/basesettings.component';
+import { SystemdocumentationComponent } from './systemdocumentation/systemdocumentation.component';
 
 const routes : Routes = [
     {
         path: '', 
         component: HomeComponent,
         children: [
-            { path: 'basesettings', component: BasesettingsComponent },
-            { path: '**', redirectTo: 'basesettings' }
+            { path: 'systemdocumentation', component: SystemdocumentationComponent },
+            { path: '**', redirectTo: 'systemdocumentation' }
         ]
     }
 ];

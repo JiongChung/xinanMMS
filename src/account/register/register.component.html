@@ -5,7 +5,7 @@
                 {{l("SignUp")}}
             </h3>
         </div>
-        <form #registerForm="ngForm" class="m-login__form" method="post" novalidate (ngSubmit)="save()">
+        <!-- <form #registerForm="ngForm" class="m-login__form" method="post" novalidate (ngSubmit)="save()">
             <div class="form-group m-form__group">
                 <input #nameInput="ngModel" class="form-control" autoFocus type="text" placeholder="{{l('Name')}} *" [(ngModel)]="model.name" name="Name" required maxlength="32" />
                 <validation-messages [formCtrl]="nameInput"></validation-messages>
@@ -68,6 +68,6 @@
                 <button [disabled]="saving" routerLink="/account/login" type="button" class="btn btn-outline-focus  m-btn m-btn--pill m-btn--custom"><i class="fa fa-arrow-left"></i> {{l("Back")}}</button>
                 <button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air" [disabled]="!registerForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-check"></i> {{l("Submit")}}</button>
             </div>
-        </form>
+        </form> -->
     </div>
 </div>

@@ -24,6 +24,11 @@ export const sideNavNameList = [
                         lastname: 'OrderList',
                         icon:'flaticon-interface-8',
                         url: '/app/admin/orders/orderlist'
+                    },
+                    {
+                        lastname: 'Payrecord',
+                        icon:'flaticon-interface-8',
+                        url: '/app/admin/orders/payrecord'
                     }
                 ]
             }
@@ -63,6 +68,11 @@ export const sideNavNameList = [
                 subbackname: 'ossystemSettings',
                 icon:'flaticon-interface-8',
                 list: [
+                    {
+                        lastname: 'SystemDocumentation',
+                        icon:'flaticon-interface-8',
+                        url: '/app/admin/settings/systemdocumentation'
+                    },
                     {
                         lastname: 'RolesSettings',
                         icon:'flaticon-interface-8',

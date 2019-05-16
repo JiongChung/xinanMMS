@@ -1,0 +1,32 @@
+
+<div class="new-search-item">
+    <form role="form" class="form-horizontal">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">标题</b>
+                    </span>
+                    <input type="text" class="form-control" [(ngModel)]="Title" name="Title" placeholder="请输入标题"> 
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <b class="text">状态</b>
+                    </span>
+                    <select class="form-control" name="IsActive" [(ngModel)]="IsActive">
+                        <option value="" selected="selected">全部</option>
+                        <option value="1">可用</option>
+                        <option value="2">不可用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="search-item">
+                    <button type="submit" class="btn blue" (click)="submitSearch()">查询</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

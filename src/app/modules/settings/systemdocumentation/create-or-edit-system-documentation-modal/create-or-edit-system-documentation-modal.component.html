@@ -1,0 +1,114 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" [formGroup]="myForm" novalidate  (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header new-modal-header">
+                    <h4 class="modal-title">       
+                        <span [hidden]="!createOrEditParameter.id">编辑系统文件</span> 
+                        <span [hidden]="createOrEditParameter.id">添加系统文件</span>                       
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body new-view-detail">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="input-group"  [class.has-error]="myForm.get('title').invalid && myForm.get('title').touched">
+                                <span class="input-group-btn">
+                                    <b class="text must">标题</b>
+                                </span>
+                                <input formControlName="title" placeholder="请输入标题" [(ngModel)]="createOrEditParameter.title" class="form-control">
+                                <div class="error-tips" [hidden]="myForm.get('title').valid || myForm.get('title').untouched">
+                                    <span [hidden]="!myForm.hasError('required','title')">请输入标题</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <b class="text">是否可用</b>
+                                </span>
+                                <input type="checkbox"
+                                    id="isActive"
+                                    jq-plugin="bootstrapSwitch"
+                                    name="isActive"
+                                    formControlName="isActive" 
+                                    attr.switch-size="small"
+                                    [attr.switch-on-text]="l('On')"
+                                    [attr.switch-off-text]="l('Off')"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <b class="text">常见问题</b>
+                                </span>
+                                <input type="checkbox"
+                                    id="isCommonIssue"
+                                    jq-plugin="bootstrapSwitch"
+                                    name="isCommonIssue"
+                                    formControlName="isCommonIssue" 
+                                    attr.switch-size="small"
+                                    [attr.switch-on-text]="l('On')"
+                                    [attr.switch-off-text]="l('Off')"/>
+                            </div>
+                            <div class="input-group" [class.has-error]="myForm.get('sequence').invalid && myForm.get('sequence').touched">
+                                <span class="input-group-btn">
+                                    <b class="text">排序</b>
+                                </span>
+                                <input type="number" formControlName="sequence" placeholder="请输入排序" [(ngModel)]="createOrEditParameter.sequence" class="form-control">
+                                <div class="error-tips" [hidden]="myForm.get('sequence').valid || myForm.get('sequence').untouched">
+                                    <span [hidden]="!myForm.hasError('required','sequence')">请输入排序</span>
+                                    <span [hidden]="!myForm.hasError('pattern','sequence')">数值必须是正数</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <b class="text">备注</b>
+                                </span>
+                                <div style="width:100%;margin-left:-150px;padding-left:150px">
+                                    <quill-editor [style]="{height: '500px',width: '100%'}" formControlName="content"  name="content" [(ngModel)]="createOrEditParameter.content">
+                                        <div quill-editor-toolbar>
+                                            <span class="ql-formats">
+                                                <button type="button" class="ql-bold"></button>
+                                                <button type="button" class="ql-italic"></button>
+                                                <button type="button" class="ql-underline"></button>
+                                                <button type="button" class="ql-blockquote"></button>
+                                                <button type="button" class="ql-code-block ql-active"></button>
+                                                <button type="button" class="ql-list" value="ordered"></button>
+                                                <button type="button" class="ql-list" value="bullet"></button>
+                                                <button type="button" class="ql-script" value="sub"></button>
+                                                <button type="button" class="ql-script" value="super"></button>
+                                                <button type="button" class="ql-indent" value="-1"></button>
+                                                <button type="button" class="ql-indent" value="+1"></button>
+                                                <select class="ql-header">
+                                                    <option value="1">Heading1</option>
+                                                    <option value="2">Heading2</option>
+                                                    <option value="3">Heading3</option>
+                                                    <option value="4">Heading4</option>
+                                                    <option value="5">Heading5</option>
+                                                    <option value="6">Heading6</option>
+                                                    <option selected>Normal</option>
+                                                </select>
+                                                <select class="ql-color"></select>
+                                                <select class="ql-background"></select>
+                                                <select class="ql-align">
+                                                    <option selected></option>
+                                                    <option value="center"></option>
+                                                    <option value="right"></option>
+                                                    <option value="justify"></option>
+                                                </select>
+                                                <button type="button" class="ql-link"></button>
+                                            </span>
+                                        </div>
+                                    </quill-editor>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer new-modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">取消</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!myForm.valid" [buttonBusy]="saving" [busyText]="SavingWithThreeDot"><i class="fa fa-save"></i> <span>保存</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
