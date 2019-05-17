@@ -53,6 +53,8 @@ import { CommonService } from './services/common.service';
 // import { OrderNumberInterceptPipe } from './pipe/order-number-intercept.pipe';
 // import { ClientNumberInterceptPipe } from './pipe/client-number-intercept.pipe';
 
+// import { StoreModule } from '@ngrx/store';
+// import {conterReducer} from './reducer/counter.reducer';
 
 @NgModule({
     declarations: [
@@ -76,6 +78,7 @@ import { CommonService } from './services/common.service';
         ChatMessageComponent,
         NewsidebarmenuComponent,
         NewtopbarmenuComponent,
+        // StoreModule.forRoot({count: conterReducer})
         // DataChineseInterceptPipe,
         // NumberInterceptPipe,
         // OrderNumberInterceptPipe,
